@@ -71,7 +71,7 @@ class EquipmentListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['equipment_types'] = Equipment.objects.values_list('type', flat=True).distinct()
-        context['equipment_locations'] = Location.objects.values_list('location_', flat=True).distinct()
+        context['equipment_locations'] = Location.objects.values_list('location_name', flat=True).distinct()
         return context
 
 
