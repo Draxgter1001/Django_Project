@@ -38,7 +38,6 @@ class Equipment(models.Model):
     location = models.ForeignKey('Location', on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=100, null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
-    asset_tag = models.CharField(max_length=100, null=True, blank=True)
     availability = models.BooleanField(default=True)
     onsite_only = models.BooleanField(default=False)
 

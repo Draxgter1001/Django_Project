@@ -2,11 +2,12 @@
 from django.contrib import admin
 from .models import UserProfile, Equipment, Reservation, Location
 
+
 # Custom ModelAdmin classes
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'asset_tag', 'availability', 'onsite_only')
+    list_display = ('name', 'type', 'quantity', 'availability', 'onsite_only', 'status', 'comments')
     list_filter = ('type', 'availability', 'onsite_only')
-    search_fields = ('name', 'asset_tag')
+    search_fields = ('name',)
 
 
 # Register models with their respective ModelAdmin classes
