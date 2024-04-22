@@ -10,7 +10,8 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView
 from .forms import UserRegisterForm, ReservationForm, EquipmentForm
-from .models import Equipment, Reservation, UserProfile
+from .models import Equipment, Reservation, UserProfile, Location
+
 
 # Authentication and Registration Views
 
@@ -18,9 +19,11 @@ from .models import Equipment, Reservation, UserProfile
 def home(request):
     return render(request, 'inventory/home.html')
 
+
 @login_required
 def profile_view(request):
     return render(request, 'inventory/profile.html')
+
 
 def register(request):
     if request.method == 'POST':
@@ -32,6 +35,7 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -50,10 +54,12 @@ def login_view(request):
             messages.error(request, 'Invalid username or password.')
     return render(request, 'registration/login.html')
 
+
 class SignUpView(CreateView):
     form_class = UserCreationForm
     template_name = 'registration/register.html'
     success_url = reverse_lazy('login')
+
 
 # Equipment Views
 
@@ -65,8 +71,9 @@ class EquipmentListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['equipment_types'] = Equipment.objects.values_list('type', flat=True).distinct()
-        context['equipment_locations'] = Equipment.objects.values_list('location', flat=True).distinct()
+        context['equipment_locations'] = Location.objects.values_list('location_', flat=True).distinct()
         return context
+
 
 class EquipmentCreateView(LoginRequiredMixin, CreateView):
     model = Equipment
@@ -74,11 +81,13 @@ class EquipmentCreateView(LoginRequiredMixin, CreateView):
     template_name = 'inventory/equip.html'
     success_url = reverse_lazy('inventory:equipment_list')
 
+
 class EquipmentUpdateView(LoginRequiredMixin, UpdateView):
     model = Equipment
     form_class = EquipmentForm
     template_name = 'inventory/equipment_form.html'
     success_url = reverse_lazy('inventory:equipment_list')
+
 
 # Reservation Views
 
@@ -86,6 +95,7 @@ class EquipmentUpdateView(LoginRequiredMixin, UpdateView):
 def booking_view(request):
     reservations = Reservation.objects.filter(user=request.user)
     return render(request, 'inventory/bookingList.html', {'reservations': reservations})
+
 
 @method_decorator(login_required, name='dispatch')
 class ReservationCreateView(LoginRequiredMixin, CreateView):
@@ -118,10 +128,12 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         else:
             return self.form_invalid(form)
 
+
 # Miscellaneous Views
 
 def edit_account(request):
     return render(request, "registration/editAccount.html")
+
 
 def successful_registration(request):
     return render(request, 'registration/successfulRegistration.html')

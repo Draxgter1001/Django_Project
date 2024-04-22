@@ -152,8 +152,45 @@ function reserveEquipment() {
     xhr.send('equipment_id=' + equipmentId + '&quantity_required=' + quantityRequired);
 }
 
+document.getElementById('applyFilters').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent the form from submitting traditionally
+
+    // Get filter values
+    var nameFilter = document.getElementById('equipment-name').value.toLowerCase();
+    var typeFilter = document.getElementById('type').value;
+    var availabilityFilter = document.getElementById('availability').value;
+    var locationFilter = document.getElementById('location').value;
+
+    var table = document.querySelector('.equipment-table tbody');
+    var rows = table.querySelectorAll('tr');
+
+    // Filter rows
+    rows.forEach(row => {
+        var name = row.cells[0].textContent.toLowerCase();
+        var type = row.cells[1].textContent;
+        var availability = row.cells[2].textContent;
+        var location = row.cells[4].textContent;
+
+        // Check each row if it matches all the filters
+        var nameMatch = nameFilter === "" || name.includes(nameFilter);
+        var typeMatch = typeFilter === "" || type === typeFilter;
+        var availabilityMatch = availabilityFilter === "" || availability === availabilityFilter;
+        var locationMatch = locationFilter === "" || location.includes(locationFilter);
+
+        if (nameMatch && typeMatch && availabilityMatch && locationMatch) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    // Close the modal after applying filters
+    modal.style.display = 'none';
+});
+
 detailsSpan.onclick = function() {
     detailsModal.style.display = 'none';
 };
+
 </script>
 {% endblock %}
