@@ -1,81 +1,79 @@
 body {
-    background-color: RGB(20, 33, 61);
+  background-color: RGB(20, 33, 61);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 h2 {
-    color: rgb(20, 33, 61);
+  color: rgb(20, 33, 61);
 }
-.container {
-    width: 100%; /* Set to 100% to fill the viewport */
-    display: flex;
-    justify-content: center; /* Align items to the center */
-    align-items: center;
-    height: 100vh;
-    overflow: hidden; /* Hide overflow if any part goes outside of the viewport */
-  }
-  .login-container {
-    background-color: rgb(252, 163, 17);
-    padding: 100px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* optional: added shadow for aesthetics */
-  }
-  input[type="email"], input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-  }
 
-  button {
-    width: 105.5%; /* Adjusted to 100% to fit the container */
-    flex: none;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: rgb(20, 33, 61);
-    color: white;
-    cursor: pointer;
-  }
+.login-container {
+  background-color: rgb(252, 163, 17);
+  padding: 100px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* optional: added shadow for aesthetics */
+}
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+}
 
-  .login-container a {
-    color: rgb(20, 33, 61);
-    text-decoration: none;
-    display: block;
-    text-align: center;
-    margin-top: 10px;
-  }
+button {
+  width: 105.5%; /* Adjusted to 100% to fit the container */
+  flex: none;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(20, 33, 61);
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
-  .login-container a:hover {
-    text-decoration: underline;
-  }
+.login-container a {
+  color: rgb(20, 33, 61);
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
 
-  .login-container {
-    flex: none; /* Do not grow or shrink */
-    padding: 100px;
-    border-radius: 5px;
+.login-container a:hover {
+  text-decoration: underline;
+}
 
-  }
+.login-container {
+  flex: none; /* Do not grow or shrink */
+  padding: 100px;
+  border-radius: 5px;
+}
 
-  .flex-container {
-    display: flex;
-    justify-content: center; /* Center the items without adding space around */
-    align-items: center;
-    height: 100vh;
+.flex-container {
+  display: flex;
+  justify-content: center; /* Center the items without adding space around */
+  align-items: center;
+  height: 100vh;
+}
+.image-container {
+  flex: none;
+  display: flex;
+  max-width: 50%; /* Adjust to ensure the image is fully visible */
+  max-height: 50%;
+  justify-content: end; /* Align items to the center */
+  align-items: end;
+}
 
-  }
-  .image-container {
-    flex: none;
-    display: flex;
-    max-width: 50%; /* Adjust to ensure the image is fully visible */
-    max-height: 50%;
-    justify-content: end; /* Align items to the center */
-    align-items:end;
+.image-container img {
+  max-width: 75%; /* Change this value to make the image smaller */
+  max-height: 75%; /* You can also set a max-height if needed */
+}
 
-  }
-
-  .image-container img {
-    max-width: 75%; /* Change this value to make the image smaller */
-    max-height: 75%; /* You can also set a max-height if needed */
-
+.error-messages .error {
+    color: red;
+    /* Additional styling */
 }

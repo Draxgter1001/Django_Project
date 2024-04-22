@@ -1,0 +1,14 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}Reserve Equipment{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>Reserve Equipment</h1>
+    <form method="post" action="{% url 'inventory:reserve_equipment' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Reservation</button>
+    </form>
+</div>
+{% endblock content %}

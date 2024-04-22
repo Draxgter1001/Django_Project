@@ -1,10 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'successfulRegistration.css' %}">
+    <title>Successful Login</title>
 </head>
+
 <body>
-$END$
+    <div class="flex-container">
+        <div class="login-container">
+          <h2>YHUEN'S VAULT</h2>
+          <br>
+          <h4>Account created successfully</h4>
+          <h5>Awaiting admin approval</h5>
+          <br>
+          <a href="{% url 'inventory:login' %}">BACK TO HOME PAGE</a>
+        </div>
+    </div>
+
+
 </body>
 </html>

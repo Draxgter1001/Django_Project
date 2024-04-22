@@ -1,0 +1,64 @@
+body {
+  background-color: RGB(20, 33, 61);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  color: rgb(20, 33, 61);
+}
+
+.login-container {
+  background-color: rgb(252, 163, 17);
+  padding: 30px; /* Increased padding for a slightly bigger container */
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* optional: added shadow for aesthetics */
+  max-width: 350px; /* Increased max-width for a slightly bigger container */
+  margin: 0 auto; /* Centering the container */
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: calc(
+    100% - 20px
+  ); /* Adjusted width for smaller container and padding */
+  padding: 8px;
+  margin: 5px 0; /* Reduced margin for form fields */
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  width: calc(
+    100% - 20px
+  ); /* Adjusted width for smaller container and padding */
+  flex: none;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(20, 33, 61);
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-container a {
+  color: rgb(20, 33, 61);
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center; /* Center the items without adding space around */
+  align-items: center;
+  height: 100vh;
+}

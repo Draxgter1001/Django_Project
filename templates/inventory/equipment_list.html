@@ -1,0 +1,43 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}Equipment List{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2>Equipment List</h2>
+
+    <!-- Optional: Search and Filter Form -->
+    <form method="get" action="{% url 'inventory:equipment_list' %}">
+        <input type="text" name="search" placeholder="Search by name...">
+        <select name="availability">
+            <option value="">Show All</option>
+            <option value="True">Available Only</option>
+            <option value="False">Unavailable Only</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Available</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipment in equipment_list %}
+            <tr>
+                <td>{{ equipment.name }}</td>
+                <td>{{ equipment.get_type_display }}</td>
+                <td>{{ equipment.availability|yesno:"Yes,No" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No equipment found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>{% block title %}Django Project{% endblock %}</title>
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'inventory:home' %}">Home</a></li>
+                <li><a href="{% url 'inventory:equipment_list' %}">Equipment List</a></li>
+                <li><a href="{% url 'inventory:reserve_equipment' %}">Reserve Equipment</a></li>
+                <li><a href="{% url 'inventory:profile' %}">Profile</a></li>
+                <!-- This will show a logout button regardless of authentication status -->
+                <li>
+                    <form action="{% url 'inventory:logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; padding: 0; color: #069; text-decoration: underline; cursor: pointer;">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
+    <main>
+        {% block content %}
+        <!-- Content goes here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Django Project. All rights reserved.</p>
+    </footer>
+
+    <!-- Optional: Include JavaScript files -->
+    {% block javascript %}
+        <script src="{% static 'js/main.js' %}"></script>
+    {% endblock javascript %}
 </body>
 </html>

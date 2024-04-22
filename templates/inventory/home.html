@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!-- home.html -->
+{% extends 'inventory/base.html' %}
 
-</body>
-</html>
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to the CSE Equipment Inventory System</h1>
+    <p>This is the homepage of your inventory system.</p>
+    <!-- Additional homepage content -->
+</div>
+{% endblock content %}
