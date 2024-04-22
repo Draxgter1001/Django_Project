@@ -6,6 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <title>{% block title %}Django Project{% endblock %}</title>
+    <style>
+        /* Add your base CSS here */
+
+        /* Additional styles for navigation bar */
+        nav {
+            background-color: rgb(20, 33, 61);
+            padding: 0.5em 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 1em;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.25em 1em;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #069;
+            text-decoration: underline;
+        }
+        nav ul li form {
+            display: inline;
+        }
+        nav ul li button {
+            background: none;
+            border: none;
+            padding: 0;
+            color: white;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        nav ul li button:hover {
+            color: #069;
+        }
+    </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -14,13 +57,12 @@
             <ul>
                 <li><a href="{% url 'inventory:home' %}">Home</a></li>
                 <li><a href="{% url 'inventory:equipment_list' %}">Equipment List</a></li>
-                <li><a href="{% url 'inventory:reserve_equipment' %}">Reserve Equipment</a></li>
-                <li><a href="{% url 'inventory:profile' %}">Profile</a></li>
-                <!-- This will show a logout button regardless of authentication status -->
+                <li><a href="{% url 'inventory:booking_view' %}">View My Bookings</a></li>
+                <li><a href="{% url 'inventory:edit_account' %}">Update Account Info</a></li>
                 <li>
-                    <form action="{% url 'inventory:logout' %}" method="post" style="display: inline;">
+                    <form action="{% url 'inventory:logout' %}" method="post">
                         {% csrf_token %}
-                        <button type="submit" style="background: none; border: none; padding: 0; color: #069; text-decoration: underline; cursor: pointer;">Logout</button>
+                        <button type="submit">Logout</button>
                     </form>
                 </li>
             </ul>
@@ -36,10 +78,5 @@
     <footer>
         <p>&copy; 2024 Django Project. All rights reserved.</p>
     </footer>
-
-    <!-- Optional: Include JavaScript files -->
-    {% block javascript %}
-        <script src="{% static 'js/main.js' %}"></script>
-    {% endblock javascript %}
 </body>
 </html>

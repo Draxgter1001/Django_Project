@@ -6,7 +6,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField(null=True, blank=True)
@@ -14,7 +13,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile'
-
 
 class Location(models.Model):
     class LocationList(models.TextChoices):
@@ -30,6 +28,7 @@ class Location(models.Model):
         return f'{self.location_name}'
 
 
+
 class Equipment(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=100, null=True, blank=True)
@@ -43,7 +42,6 @@ class Equipment(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.type})"
-
 
 class Reservation(models.Model):
     class ReservationStatus(models.TextChoices):

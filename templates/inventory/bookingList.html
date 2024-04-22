@@ -1,0 +1,41 @@
+{% extends 'inventory/base.html' %}
+
+{% load static %}
+
+{% block title %}My Booking List{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'bookingList.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1>My Bookings List</h1>
+    <table class="booking-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Equipment</th>
+                <th>Date</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in user_reservations %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>{{ booking.equipment.name }}</td>
+                    <td>{{ booking.date_reserved }}</td>
+                    <td>{{ booking.equipment.location }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No bookings found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

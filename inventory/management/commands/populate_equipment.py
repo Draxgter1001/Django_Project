@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'Load equipment data from Excel file using openpyxl'
 
     def handle(self, *args, **options):
-        file_path = r'C:\Users\uthsh\PycharmProjects\djangoProjectGroup\media\equipment.xlsx'
+        file_path = r'/Users/rafaelrojas/PycharmProjects/djangoProjectGroup/media/equipment.xlsx'
         wb = load_workbook(filename=file_path)
         ws = wb['MainInventory']
 

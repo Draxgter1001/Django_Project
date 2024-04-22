@@ -1,11 +1,10 @@
 # forms.py
-from .models import UserProfile, Reservation, Equipment
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import UserProfile, Reservation, Equipment
 
 class UserRegisterForm(UserCreationForm):
-    username = forms.CharField(required=True)
     email = forms.EmailField(required=True)
     date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
