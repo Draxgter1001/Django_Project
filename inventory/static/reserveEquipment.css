@@ -1,0 +1,103 @@
+body {
+    background-color: RGB(20, 33, 61);
+    font-family: Arial, sans-serif;
+    color: white;
+    margin: 0;
+}
+
+.equipment-details {
+    padding: 20px;
+    margin-top: 20px;
+    margin-left: 50px; /* Align with the H1 heading */
+}
+
+.details-text {
+    margin-right: 20px; /* Adjust the right margin if necessary */
+}
+
+.item-name {
+    font-size: 1.5em; /* Larger font size for item name */
+    color: #FFF;
+    margin-bottom: 0.5em; /* Space below the item name */
+}
+
+.item-detail {
+    font-size: 1.2em; /* Larger font size for details */
+    color: #FFF;
+    margin-top: 10px; /* Space out the details */
+}
+
+.quantity-form {
+    margin-left: 50px; /* Align with the content above */
+}
+
+.top-content {
+    display: flex;
+    justify-content: space-between; /* Distribute space between child elements */
+    align-items: center; /* Vertically align items */
+    padding: 20px; /* Add some padding */
+}
+
+.inline-text ul {
+    display: flex; /* Display list items horizontally */
+    list-style-type: none; /* Remove default list styling */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+.inline-text li {
+    color: rgb(252, 163, 17);
+    margin-right: 20px; /* Adjust margin as needed */
+}
+
+.inline-text a {
+    text-decoration: none;
+    color: rgb(252, 163, 17);
+}
+
+.main-content {
+    padding: 20px;
+}
+
+h1 {
+    color: rgb(252, 163, 17);
+    /* Align the heading to the left if it is not already */
+    text-align: left;
+    margin-left: 50px; /* Adjust as needed to align with the rest of the content */
+}
+
+.quantity-form {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.quantity-form label {
+    color: rgb(252, 163, 17);
+    margin-right: 10px;
+}
+
+.quantity-form input {
+    padding: 5px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+#reserve-button {
+    background-color: rgb(252, 163, 17);
+    color: RGB(20, 33, 61);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
+.footer {
+    background-color: #004165;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

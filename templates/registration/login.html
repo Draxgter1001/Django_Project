@@ -1,9 +1,10 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <title>Login</title>
 </head>
@@ -15,9 +16,11 @@
         </div>
         <div class="login-container">
             <h2>YHUEN'S VAULT</h2>
-            {% if error %}
+            {% if messages %}
                 <div class="error-messages">
-                    <span class="error">{{ error }}</span>
+                    {% for message in messages %}
+                    <span class="error">{{ message }}</span>
+                    {% endfor %}
                 </div>
             {% endif %}
             <form method="post" action="{% url 'inventory:login' %}">

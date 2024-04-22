@@ -47,8 +47,10 @@ def register(request):
 
 
 def reserve_view(request):
-    return render(request, 'inventory/reserve_equipment.html')
+    return render(request, 'inventory/reserveEquipment.html')
 
+def booking_view(request):
+    return render(request, 'inventory/bookingList.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -99,7 +101,7 @@ class EquipmentListView(ListView):
 class ReservationCreateView(CreateView):
     model = Reservation
     form_class = ReservationForm
-    template_name = 'inventory/reserve_equipment.html'
+    template_name = 'inventory/reserveEquipment.html'
     success_url = reverse_lazy('inventory:home')
 
     # Redirect to the home page after successful reservation

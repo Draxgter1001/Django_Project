@@ -1,43 +1,100 @@
 {% extends 'inventory/base.html' %}
 
-{% block title %}Equipment List{% endblock title %}
+{% load static %}
+
+{% block title %}Equipment List{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'equipmentList.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Equipment List</h2>
-
-    <!-- Optional: Search and Filter Form -->
-    <form method="get" action="{% url 'inventory:equipment_list' %}">
-        <input type="text" name="search" placeholder="Search by name...">
-        <select name="availability">
-            <option value="">Show All</option>
-            <option value="True">Available Only</option>
-            <option value="False">Unavailable Only</option>
-        </select>
-        <button type="submit">Search</button>
-    </form>
-
-    <table>
+<div class="content">
+    <h1>Equipment List</h1>
+    <button class="filter-button">Filter list</button>
+    <table class="equipment-table">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Type</th>
-                <th>Available</th>
+                <th>Availability</th>
+                <th>Quantity</th>
+                <th>Location</th>
             </tr>
         </thead>
         <tbody>
             {% for equipment in equipment_list %}
             <tr>
                 <td>{{ equipment.name }}</td>
-                <td>{{ equipment.get_type_display }}</td>
-                <td>{{ equipment.availability|yesno:"Yes,No" }}</td>
+                <td>{{ equipment.type }}</td>
+                <td>{{ equipment.availability }}</td>
+                <td>{{ equipment.quantity }}</td>
+                <td>{{ equipment.location }}</td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="3">No equipment found.</td>
+                <td colspan="5">No equipment found.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-{% endblock content %}
+
+<div id="filterModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Filter equipment</h2>
+      <!-- The form action should point to the view that handles the filtering -->
+      <form method="get" action="{% url 'inventory:equipment_list' %}">
+          <label for="equipment-name">Equipment name:</label>
+          <input type="text" id="equipment-name" name="name" placeholder="Enter equipment name">
+          
+          <label for="type">Type:</label>
+          <select id="type" name="type">
+            <option value="">Select type</option>
+            {% for type in equipment_types %}
+            <option value="{{ type }}">{{ type }}</option>
+            {% endfor %}
+          </select>
+      
+          <label for="availability">Availability:</label>
+          <select id="availability" name="availability">
+            <option value="">Select availability</option>
+            <option value="In Stock">In Stock</option>
+            <option value="Limited">Limited</option>
+            <option value="Out of Stock">Out of Stock</option>
+          </select>
+      
+          <label for="location">Location:</label>
+          <select id="location" name="location">
+            <option value="">Select location</option>
+            {% for location in equipment_locations %}
+            <option value="{{ location }}">{{ location }}</option>
+            {% endfor %}
+          </select>
+          
+          <button type="submit" id="applyFilters">Apply filters</button>
+      </form>
+    </div>
+</div>
+
+<script>
+    var modal = document.getElementById("filterModal");
+    var btn = document.querySelector(".filter-button");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+    modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+    }
+</script>
+{% endblock %}
