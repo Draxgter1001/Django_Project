@@ -23,7 +23,7 @@ class Location(models.Model):
         XRLab_Blue_Cabinet_Large = 'XRLab Blue Cabinet Large', _('XRLab Blue Cabinet Large')
         XRLab_Medium_Wooden_Cabinet = 'XRLab Medium Wooden Cabinet', _('XRLab Medium Wooden Cabinet')
 
-    location_name = models.CharField(max_length=255, default="Default Location")
+    location_name = models.CharField(max_length=255, null=True, blank=True, default="Default Location")
     location_type = models.CharField(max_length=50, choices=LocationList.choices, default="")
 
     def __str__(self):
@@ -31,14 +31,14 @@ class Location(models.Model):
 
 
 class Equipment(models.Model):
-    name = models.CharField(max_length=255)
-    type = models.CharField(max_length=100)
-    quantity = models.IntegerField(default=0)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    type = models.CharField(max_length=100, null=True, blank=True)
+    quantity = models.IntegerField(default=0, null=True)
     last_audit = models.DateField(null=True)
     location = models.ForeignKey('Location', on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=100, null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
-    asset_tag = models.CharField(max_length=100)
+    asset_tag = models.CharField(max_length=100, null=True, blank=True)
     availability = models.BooleanField(default=True)
     onsite_only = models.BooleanField(default=False)
 
