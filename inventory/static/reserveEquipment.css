@@ -101,3 +101,71 @@ h1 {
     bottom: 0;
     width: 100%;
 }
+
+/* Existing styles */
+/* ... (keep your existing styles here) */
+
+/* New styles for buttons and modal */
+
+/* Button Base Style */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    border-radius: 5px; /* consistent rounded corners */
+}
+
+/* Primary Button Style - You can adjust the existing #reserve-button style */
+#reserve-button {
+    background-color: #f90; /* Orange color */
+    color: #000; /* Black text */
+    /* Other styles are already defined, keep them */
+}
+
+#reserve-button:hover {
+    background-color: #fb3; /* Lighter orange on hover */
+    color: white; /* Change text color on hover for better contrast */
+}
+
+/* Close Button Style - Adapt it if you have a close button */
+.close {
+    font-size: 24px;
+    color: white; /* Ensure the 'X' is visible */
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.close:hover {
+    opacity: 1; /* Full opacity when hovered */
+}
+
+/* Modal Content Style */
+.modal-content {
+    background-color: #282828; /* Dark background for the modal */
+    color: white; /* White text */
+    border: 1px solid #444; /* Slight border for definition */
+    /* Add padding, border-radius if needed */
+}
+
+/* Input fields inside modals */
+.modal input[type='number'] {
+    background-color: #333; /* Dark background for input */
+    color: #fff; /* White text */
+    border: 1px solid #555; /* Slightly lighter border */
+}
+
+.modal input[type='number']::placeholder {
+    color: #bbb; /* Lighter color for placeholder text */
+}
+
+/* Additional styles for modal if needed */
+#equipmentDetailsModal {
+    /* Style your modal here, e.g., max-width for better layout on desktop */
+}
+
+/* You may need to adjust the z-index of your modal if it's not showing above other content */
+.modal {
+    z-index: 1050; /* Higher than 1040 which is typical for bootstrap modals */
+}

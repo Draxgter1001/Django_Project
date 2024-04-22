@@ -1,40 +1,40 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'register.css' %}">
+    <link rel="stylesheet" href="{% static 'register.css' %}">  <!-- Ensures CSS is loaded from the static directory -->
     <title>Create Account</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <div class="flex-container">
-      <div class="login-container">
-        <h2>YHUEN'S VAULT</h2>
-        <h3>Create New Account</h3>
-        <!-- Form action updated to point to the Django registration view -->
-        <form method="post" action="{% url 'inventory:register' %}">
-            {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required />
-        
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required />
-        
-            <label for="password1">Password:</label>
-            <input type="password" id="password1" name="password1" placeholder="Enter your password" required />
-        
-            <label for="password2">Confirm Password:</label>
-            <input type="password" id="password2" name="password2" placeholder="Confirm your password" required />
-        
-            <label for="date_of_birth">Date of Birth:</label>
-            <input type="date" id="date_of_birth" name="date_of_birth" required />
-        
-            <button type="submit">Create Account</button>
-        </form>
-        <a href="{% url 'inventory:login' %}">Already have an account? Log in here!</a>
-      </div>
+        <div class="login-container">
+            <h2>YHUEN'S VAULT</h2>
+            <h3>Create New Account</h3>
+            <!-- Form action updated to point to the Django registration view -->
+            <form method="post" action="{% url 'inventory:register' %}">  <!-- Correctly point to the 'register' view within the 'inventory' namespace -->
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required />
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+                <label for="password1">Password:</label>
+                <input type="password" id="password1" name="password1" placeholder="Enter your password" required />
+
+                <label for="password2">Confirm Password:</label>
+                <input type="password" id="password2" name="password2" placeholder="Confirm your password" required />
+
+                <label for="date_of_birth">Date of Birth:</label>
+                <input type="date" id="date_of_birth" name="date_of_birth" required />
+
+                <button type="submit">Create Account</button>
+            </form>
+            <a href="{% url 'inventory:login' %}">Already have an account? Log in here!</a>  <!-- Link to the login page if the user already has an account -->
+        </div>
     </div>
-  </body>
+</body>
 </html>

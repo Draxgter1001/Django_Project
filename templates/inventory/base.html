@@ -57,8 +57,8 @@
             <ul>
                 <li><a href="{% url 'inventory:home' %}">Home</a></li>
                 <li><a href="{% url 'inventory:equipment_list' %}">Equipment List</a></li>
-                <li><a href="{% url 'inventory:reserve_equipment' %}">Reserve Equipment</a></li>
-                <li><a href="{% url 'inventory:profile' %}">Profile</a></li>
+                <li><a href="{% url 'inventory:booking_view' %}">View My Bookings</a></li>
+                <li><a href="{% url 'inventory:edit_account' %}">Update Account Info</a></li>
                 <li>
                     <form action="{% url 'inventory:logout' %}" method="post">
                         {% csrf_token %}

@@ -9,106 +9,33 @@
 {% endblock %}
 
 {% block content %}
-<div class="top-content">
-    <img src="{% static 'path_to_logo_image' %}" alt="logo-top">
-    <!-- The path_to_logo_image should be the relative path inside your static directory where your logo image is located -->
-    <div class="inline-text">
-        <ul>
-            <a href="{% url 'inventory:home' %}"><li>Back to Home</li></a>
-            <a href="{% url 'inventory:equipment_list' %}"><li>View Equipment List</li></a>
-            <a href="{% url 'inventory:profile' %}"><li>Update Account Info</li></a>
-            <a href="{% url 'inventory:logout' %}"><li>Log Out</li></a>
-        </ul>
-    </div>
+<div class="content">
+    <h1>My Bookings List</h1>
+    <table class="booking-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Equipment</th>
+                <th>Date</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in user_reservations %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>{{ booking.equipment.name }}</td>
+                    <td>{{ booking.date_reserved }}</td>
+                    <td>{{ booking.equipment.location }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No bookings found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-
-    <div class="content">
-        <h1>My Bookings List</h1>
-        <button class="filter-button">Filter list</button>
-        <table class="equipment-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Status</th>
-                    <th>Equipment</th>
-                    <th>Date</th>
-                    <th>Location</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Table rows with equipment data will be inserted here: below just example -->
-                <tr>
-                    <td>1</td>
-                    <td>Available</td>
-                    <td>Camera</td>
-                    <td>15/02/2024</td>
-                    <td>Building A</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Not available</td>
-                    <td>Phone</td>
-                    <td>5/02/2024</td>
-                    <td>Building B</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="filterModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <h2>Filter bookings</h2>
-      
-          <label for="booking-id">Booking ID:</label>
-          <input type="text" id="booking-id" name="booking-id" placeholder="Enter booking ID">
-          
-          <label for="status">Status:</label>
-          <select id="status" name="status">
-            <option value="">Select status</option>
-            <!-- Option values for status -->
-          </select>
-      
-          <label for="equipment-name">Equipment:</label>
-          <input type ="text" id="equipment-name" name="equipment-name" placeholder="Enter equipment name">
-      
-      
-            <label for="return-date">Return date:</label>
-            <input type="date" id="return-date" name="return-date">
-            
-            <label for="location">Location:</label>
-            <select id="location" name="location">
-                <option value="">Select location</option>
-                <!-- Option values for locations -->
-            </select>
-            
-            <button id="applyFilters">Apply filters</button>
-        </div>  
-    </div>
-
-      <script>
-          const modal = document.getElementById("filterModal");
-
-          // Get the button that opens the modal
-          const btn = document.querySelector(".filter-button");
-
-          // Get the <span> element that closes the modal
-          const span = document.getElementsByClassName("close")[0];
-
-          //  open the modal when filter button clicked
-        btn.onclick = function() {
-        modal.style.display = "block";
-        }
-
-        //close modal when "X" is pressed
-        span.onclick = function() {
-        modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-        }
-    </script>
 {% endblock %}

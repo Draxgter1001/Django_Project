@@ -13,63 +13,47 @@
 
         editButton.addEventListener("click", function(event) {
             event.preventDefault();
-            form.submit();
-            // In a real scenario, the form would be submitted via AJAX or similar to update the user details.
-            // After which, a confirmation message could be displayed.
+            form.submit(); 
         });
     };
 </script>
 {% endblock %}
 
 {% block content %}
-<div class="top-content">
-    <img src="{% static 'images/logo.png' %}" alt="logo-top">
-    <div class="inline-text">
-        <ul>
-            <a href="{% url 'inventory:equipment_list' %}"><li>View Equipment List</li></a>
-            <a href="{% url 'inventory:booking_view' %}"><li>View My Bookings</li></a>
-            <a href="{% url 'inventory:home' %}"><li>Back to Home</li></a>
-            <a href="{% url 'inventory:logout' %}"><li>Log Out</li></a>
-        </ul>
-    </div>
-</div>
-
-<h1>Update Account Details</h1><br>
+<h1>Update Account Details</h1>
 
 <div class="content">
     <div class="text-box">
-        <!-- Replace 'locationhere' with the URL name that handles the profile update -->
-        <form action="{% url 'inventory:update_profile' %}" method="post">
+        <!-- Use '#' for action to prevent actual submission for now -->
+        <form action="#" method="post">
             {% csrf_token %}
             <div class="input-group">
-                <label for="firstName">First name: </label>
+                <label for="firstName">First name:</label>
                 <input type="text" id="firstName" name="firstName" placeholder="Enter first name" value="{{ user.first_name }}"/>
             </div>
 
             <div class="input-group">
-                <label for="lastName">Last Name: </label>
+                <label for="lastName">Last Name:</label>
                 <input type="text" id="lastName" name="lastName" placeholder="Enter last name" value="{{ user.last_name }}"/>
             </div>
 
             <div class="input-group">
-                <label for="email">Email: </label>
+                <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Enter email" value="{{ user.email }}"/>
             </div>
 
             <div class="input-group">
-                <label for="password">Password: </label>
-                <!-- Note: Generally, passwords should not be pre-filled or displayed for security reasons -->
-                <input type="password" id="password" name="password" placeholder="Enter password"/>
+                <label for="password">Password:</label>
+                <!-- Removing password pre-fill for security reasons, also it is generally not displayed -->
+                <input type="password" id="password" name="password" placeholder="Enter new password"/>
             </div>
 
             <div class="input-group">
                 <label for="alerts">Receive Alerts?</label>
                 <input type="checkbox" id="alerts" name="alerts" {% if user.profile.receive_alerts %}checked{% endif %}>
             </div>
-
-            <!-- The button is outside the form for presentation purposes, so we trigger the form submission via JavaScript -->
         </form>
-        <button id="editButton">Edit Account Details</button><br>
+        <button id="editButton">Save Changes</button>
     </div>
 </div>
 {% endblock %}

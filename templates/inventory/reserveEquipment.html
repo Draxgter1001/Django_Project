@@ -8,11 +8,33 @@
 <link rel="stylesheet" href="{% static 'reserveEquipment.css' %}">
 <script>
     window.onload = function() {
-        document.getElementById("reserve-button").addEventListener("click", function(event) {
-            event.preventDefault();
+        // Set up a click event listener on the reserve button
+        var reserveButton = document.getElementById("reserve-button");
+        reserveButton.addEventListener("click", function(event) {
+            event.preventDefault();  // Prevent traditional form submission
 
-            // Here you would typically handle the reservation logic instead of just showing an alert
-            alert("You have successfully reserved an equipment");
+            // Implement AJAX for submitting form data here if needed
+            fetch("{% url 'inventory:reserve_equipment' %}", {
+                method: 'POST',
+                body: new FormData(document.querySelector('.quantity-form form')),
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();  // Convert the response payload to JSON
+            })
+            .then(data => {
+                console.log(data);  // Handle the JSON data returned from the server
+                alert("Reservation successful!");  // Inform the user
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Error reserving equipment");  // Inform the user about the error
+            });
         });
     };
 </script>
@@ -20,11 +42,11 @@
 
 {% block content %}
 <div class="main-content">
-    <h1>Equipment Name</h1>
+    <h1>Equipment Reservation</h1>
     <div class="equipment-details">
         <div class="details-text">
             <!-- Dynamic content should be loaded here, using context variables -->
-            <h2 class="item-name">Example Name: {{ equipment.name }}</h2>
+            <h2 class="item-name">{{ equipment.name }}</h2>
             <p class="item-detail"><strong>Type:</strong> {{ equipment.type }}</p>
             <p class="item-detail"><strong>Availability:</strong> {{ equipment.availability }}</p>
             <p class="item-detail"><strong>Quantity:</strong> {{ equipment.quantity }}</p>
@@ -36,10 +58,9 @@
         <form method="post" action="{% url 'inventory:reserve_equipment' %}">
             {% csrf_token %}
             <label for="quantity-required">Quantity required:</label>
-            <input type="number" id="quantity-required" name="quantity-required">
+            <input type="number" id="quantity-required" name="quantity-required" min="1" placeholder="Enter quantity">
             <button type="submit" id="reserve-button">Reserve</button>
         </form>
     </div>
 </div>
-
 {% endblock %}
