@@ -6,8 +6,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, CreateView, UpdateView
-from .forms import UserRegisterForm, ReservationForm, EquipmentForm
+from django.views.generic import ListView, CreateView
+from .forms import UserRegisterForm, ReservationForm
 from .models import Equipment, Reservation, UserProfile, Location
 
 
@@ -16,11 +16,6 @@ from .models import Equipment, Reservation, UserProfile, Location
 @login_required
 def home(request):
     return render(request, 'inventory/home.html')
-
-
-@login_required
-def profile_view(request):
-    return render(request, 'inventory/profile.html')
 
 
 @login_required
@@ -51,20 +46,6 @@ class EquipmentListView(LoginRequiredMixin, ListView):
         context['equipment_types'] = Equipment.objects.values_list('type', flat=True).distinct()
         context['equipment_locations'] = Location.objects.values_list('location_name', flat=True).distinct()
         return context
-
-
-class EquipmentCreateView(LoginRequiredMixin, CreateView):
-    model = Equipment
-    form_class = EquipmentForm
-    template_name = 'inventory/equip.html'
-    success_url = reverse_lazy('inventory:equipment_list')
-
-
-class EquipmentUpdateView(LoginRequiredMixin, UpdateView):
-    model = Equipment
-    form_class = EquipmentForm
-    template_name = 'inventory/equipment_form.html'
-    success_url = reverse_lazy('inventory:equipment_list')
 
 
 # Reservation Views
