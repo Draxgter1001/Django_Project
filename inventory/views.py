@@ -6,8 +6,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, CreateView, UpdateView
-from .forms import UserRegisterForm, ReservationForm, EquipmentForm
+from django.views.generic import ListView, CreateView
+from .forms import UserRegisterForm, ReservationForm
 from .models import Equipment, Reservation, UserProfile, Location
 
 
