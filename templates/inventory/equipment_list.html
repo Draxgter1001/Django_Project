@@ -27,7 +27,7 @@
             <tr data-equipment-id="{{ equipment.id }}" onclick="showDetailsModal('{{ equipment.id }}')">
                 <td>{{ equipment.name }}</td>
                 <td>{{ equipment.type }}</td>
-                <td>{{ equipment.availability }}</td>
+                <td>{{ equipment.availability|yesno:"Available, Not Available" }}</td>
                 <td>{{ equipment.quantity }}</td>
                 <td>{{ equipment.location }}</td>
             </tr>
@@ -82,9 +82,8 @@
             <label for="availability">Availability:</label>
             <select id="availability" name="availability">
                 <option value="">Select availability</option>
-                <option value="In Stock">In Stock</option>
-                <option value="Limited">Limited</option>
-                <option value="Out of Stock">Out of Stock</option>
+                <option value="Available">Available</option>
+                <option value="Not Available">Not Available</option>
             </select>
             <label for="location">Location:</label>
             <select id="location" name="location">
@@ -168,13 +167,13 @@ document.getElementById('applyFilters').addEventListener('click', function(event
     rows.forEach(row => {
         var name = row.cells[0].textContent.toLowerCase();
         var type = row.cells[1].textContent;
-        var availability = row.cells[2].textContent;
+        var availability = row.cells[2].textContent.trim();
         var location = row.cells[4].textContent;
 
         // Check each row if it matches all the filters
         var nameMatch = nameFilter === "" || name.includes(nameFilter);
         var typeMatch = typeFilter === "" || type === typeFilter;
-        var availabilityMatch = availabilityFilter === "" || availability === availabilityFilter;
+        var availabilityMatch = availabilityFilter === "" || availability.includes(availabilityFilter);
         var locationMatch = locationFilter === "" || location.includes(locationFilter);
 
         if (nameMatch && typeMatch && availabilityMatch && locationMatch) {

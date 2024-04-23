@@ -41,6 +41,14 @@ class Equipment(models.Model):
     availability = models.BooleanField(default=True)
     onsite_only = models.BooleanField(default=False)
 
+    def save(self, *args, **kwargs):
+        if self.quantity <= 0:
+            self.availability = False
+        else:
+            self.availability = True
+
+        super(Equipment, self).save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name} ({self.type})"
 
