@@ -78,14 +78,14 @@ class EquipmentListView(LoginRequiredMixin, ListView):
 class EquipmentCreateView(LoginRequiredMixin, CreateView):
     model = Equipment
     form_class = EquipmentForm
-    template_name = 'inventory/equip.html'
+    template_name = 'inventory/equipment_list.html'
     success_url = reverse_lazy('inventory:equipment_list')
 
 
 class EquipmentUpdateView(LoginRequiredMixin, UpdateView):
     model = Equipment
     form_class = EquipmentForm
-    template_name = 'inventory/equipment_form.html'
+    template_name = 'inventory/equipment_list.html'
     success_url = reverse_lazy('inventory:equipment_list')
 
 
