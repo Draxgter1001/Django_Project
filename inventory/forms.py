@@ -2,7 +2,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile, Reservation, Equipment
+from .models import Reservation, Equipment
+
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -12,6 +13,7 @@ class UserRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'date_of_birth']
 
+
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
@@ -20,6 +22,7 @@ class ReservationForm(forms.ModelForm):
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
 
 class EquipmentForm(forms.ModelForm):
     class Meta:

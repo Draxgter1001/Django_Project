@@ -30,8 +30,10 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Log the user in immediately after registering
-            return redirect('inventory:home')
+            # Create or update the UserProfile with is_approved set to False
+            UserProfile.objects.update_or_create(user=user, defaults={'is_approved': False})
+            # Redirect to a page indicating that the registration was successful but pending approval
+            return redirect('inventory:successful_registration')
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form})

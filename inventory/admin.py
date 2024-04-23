@@ -15,3 +15,4 @@ admin.site.register(UserProfile)
 admin.site.register(Equipment, EquipmentAdmin)
 admin.site.register(Reservation)
 admin.site.register(Location)
+
