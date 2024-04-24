@@ -40,6 +40,21 @@ class ReservationForm(forms.ModelForm):
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        equipment = cleaned_data.get('equipment')
+        quantity = cleaned_data.get('quantity')
+
+        if equipment and quantity and equipment.quantity < quantity:
+            raise forms.ValidationError("Insufficient equipment quantity available.")
+
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+        if start_date and end_date and end_date < start_date:
+            raise forms.ValidationError("End date should be after start date.")
+
+        return cleaned_data
+
 
 class EquipmentForm(forms.ModelForm):
     class Meta:

@@ -66,7 +66,7 @@ class Reservation(models.Model):
     end_date = models.DateField()
     status = models.CharField(max_length=20, choices=ReservationStatus.choices, default=ReservationStatus.PENDING)
     purpose = models.TextField()
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username} - {self.equipment.name}'

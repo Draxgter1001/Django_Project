@@ -1,12 +1,8 @@
 # views.py
-import json
-from datetime import date
-
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -64,32 +60,28 @@ def booking_view(request):
     return render(request, 'inventory/bookingList.html', {'reservations': reservations})
 
 
-@method_decorator(login_required, name='dispatch')
-class ReservationCreateView(LoginRequiredMixin, View):
-    def post(self, request):
-        data = json.loads(request.body)
-        equipment_id = data.get('equipment_id')
-        quantity = data.get('quantity')
+from django.urls import reverse_lazy
+from .forms import ReservationForm
 
-        try:
-            equipment = Equipment.objects.get(pk=equipment_id)
-            if equipment.quantity < int(quantity):
-                return JsonResponse({'error': 'Requested quantity exceeds available quantity.'}, status=400)
 
-            reservation = Reservation.objects.create(
-                user=request.user,
-                equipment=equipment,
-                start_date=date.today(),
-                end_date=date.today(),  # Set end_date as needed
-                purpose='',  # Set purpose as needed
-                quantity=int(quantity),  # Add the quantity field
-            )
-            equipment.quantity -= int(quantity)
+class ReservationCreateView(LoginRequiredMixin, CreateView):
+    model = Reservation
+    form_class = ReservationForm
+    success_url = reverse_lazy('inventory:booking_view')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        reservation = form.save(commit=False)
+        equipment = reservation.equipment
+
+        if equipment.quantity >= reservation.quantity:
+            equipment.quantity -= reservation.quantity
             equipment.save()
-
-            return JsonResponse({'message': 'Reservation created successfully.'}, status=200)
-        except Equipment.DoesNotExist:
-            return JsonResponse({'error': 'Equipment not found.'}, status=404)
+            messages.success(self.request, "Reservation successfully created.")
+            return super().form_valid(form)
+        else:
+            form.add_error('quantity', 'Insufficient quantity available.')
+            return self.form_invalid(form)
 
 
 # Miscellaneous Views

@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<!-- Equipment List Model -->    
+<!-- Equipment List Display -->
 <div class="content">
     <h1>Equipment List</h1>
     <button class="filter-button">Filter list</button>
@@ -25,18 +25,12 @@
         </thead>
         <tbody>
             {% for equipment in equipment_list %}
-            <tr data-equipment-id="{{ equipment.id }}"
-                data-equipment-name="{{ equipment.name }}"
-                data-equipment-type="{{ equipment.type }}"
-                data-equipment-availability="{{ equipment.availability|yesno:'Available,Not Available' }}"
-                data-equipment-location="{{ equipment.location.location_name }}"
-                data-equipment-quantity="{{ equipment.quantity }}"
-                onclick="showDetailsModal(this)">
+            <tr onclick="showDetailsModal(this)" data-equipment-id="{{ equipment.id }}" data-equipment-name="{{ equipment.name }}" data-equipment-type="{{ equipment.type }}" data-equipment-availability="{{ equipment.availability|yesno:'Available,Not Available' }}" data-equipment-location="{{ equipment.location.location_name }}" data-equipment-quantity="{{ equipment.quantity }}">
                 <td>{{ equipment.name }}</td>
                 <td>{{ equipment.type }}</td>
                 <td>{{ equipment.availability|yesno:"Available, Not Available" }}</td>
                 <td>{{ equipment.quantity }}</td>
-                <td>{{ equipment.location }}</td>
+                <td>{{ equipment.location.location_name }}</td>
             </tr>
             {% empty %}
             <tr>
@@ -47,23 +41,30 @@
     </table>
 </div>
 
-<!-- Details Model Window -->
-<div id="equipmentDetailsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="equipmentDetailsModalLabel" aria-hidden="true">
+<!-- Equipment Reservation Modal -->
+<div id="equipmentDetailsModal" class="modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="equipmentDetailsModalLabel">Equipment Details</h5>
+                <h5 class="modal-title">Reserve Equipment</h5>
             </div>
-            <div class="modal-body" id="equipmentDetails">
-                <!-- Equipment details will be dynamically inserted here -->
-                <div>Details for Equipment ID: <span id="modal-equipment-id"></span></div>
-                <div>Equipment Name: <span id="modal-equipment-name"></span></div>
-                <div>Type: <span id="modal-equipment-type"></span></div>
-                <div>Availability: <span id="modal-equipment-availability"></span></div>
-                <div>Location: <span id="modal-equipment-location"></span></div>
-                <label for="quantity-required">Quantity to reserve:</label>
-                <input type="number" id="quantity-required" name="quantity" min="1" placeholder="Enter quantity">
-                <button type="button" id="reserve-button" class="btn btn-primary" onclick="reserveEquipment()">Reserve</button>
+            <div class="modal-body">
+                <form id="reservation-form" method="POST" action="{% url 'inventory:reserve_equipment' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="equipment" id="modal-equipment-id-hidden">
+                    <div>Equipment Name: <span id="modal-equipment-name"></span></div>
+                    <div>Type: <span id="modal-equipment-type"></span></div>
+                    <div>Availability: <span id="modal-equipment-availability"></span></div>
+                    <div>Location: <span id="modal-equipment-location"></span></div>
+                    <label for="quantity-required">Quantity:</label>
+                    <input type="number" id="quantity-required" name="quantity" min="1" placeholder="Enter quantity" required>
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start_date" required>
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" name="end_date" required>
+                    <textarea name="purpose" placeholder="Purpose of reservation" required></textarea>
+                    <button type="submit" class="btn btn-primary">Reserve</button>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -72,12 +73,12 @@
     </div>
 </div>
 
-<!-- Filter Model -->
+<!-- Filter Modal -->
 <div id="filterModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Filter equipment</h2>
-        <form method="get" action="{% url 'inventory:equipment_list' %}">
+        <form id="filterForm" method="get" action="{% url 'inventory:equipment_list' %}">
             <label for="equipment-name">Equipment name:</label>
             <input type="text" id="equipment-name" name="name" placeholder="Enter equipment name">
             <label for="type">Type:</label>
@@ -106,24 +107,25 @@
 </div>
 
 <script>
-var modal = document.getElementById("filterModal");
-var btn = document.querySelector(".filter-button");
-var span = document.getElementsByClassName("close")[0];
+var filterModal = document.getElementById("filterModal");
+var filterBtn = document.querySelector(".filter-button");
+var filterClose = document.getElementsByClassName("close")[0];
 
 var detailsModal = document.getElementById("equipmentDetailsModal");
-var detailsSpan = detailsModal.getElementsByClassName("close")[0];
 
-btn.onclick = function() {
-    modal.style.display = "block";
+filterBtn.onclick = function() {
+    filterModal.style.display = "block";
 };
 
-span.onclick = function() {
-    modal.style.display = "none";
+filterClose.onclick = function() {
+    filterModal.style.display = "none";
 };
 
 window.onclick = function(event) {
-    if (event.target === modal || event.target === detailsModal) {
-        modal.style.display = "none";
+    if (event.target === filterModal) {
+        filterModal.style.display = "none";
+    }
+    if (event.target === detailsModal) {
         detailsModal.style.display = "none";
     }
 };
@@ -136,53 +138,19 @@ function showDetailsModal(row) {
     var equipmentLocation = row.getAttribute('data-equipment-location');
     var equipmentQuantity = row.getAttribute('data-equipment-quantity');
 
-    document.getElementById('modal-equipment-id').textContent = equipmentId;
+    document.getElementById('modal-equipment-id-hidden').value = equipmentId;
     document.getElementById('modal-equipment-name').textContent = equipmentName;
     document.getElementById('modal-equipment-type').textContent = equipmentType;
     document.getElementById('modal-equipment-availability').textContent = equipmentAvailability;
     document.getElementById('modal-equipment-location').textContent = equipmentLocation;
-    document.getElementById('quantity-required').setAttribute('max', equipmentQuantity);
+    document.getElementById('quantity-required').max = equipmentQuantity;
 
     detailsModal.style.display = 'block';
 }
 
-//Reserving equipment
-function reserveEquipment() {
-    var equipmentId = document.getElementById('modal-equipment-id').textContent;
-    var quantityRequired = document.getElementById('quantity-required').value;
-    var maxQuantity = document.getElementById('quantity-required').getAttribute('max');
-
-    if (!quantityRequired || quantityRequired <= 0 || quantityRequired > parseInt(maxQuantity)) {
-        alert('Please enter a valid quantity within the available range.');
-        return;
-    }
-
-    // Send an AJAX request to the backend to create the reservation
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/reserve/');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            alert('Reservation created successfully!');
-            detailsModal.style.display = 'none';
-        } else {
-            alert('Failed to create reservation. Please try again.');
-        }
-    };
-    var data = JSON.stringify({
-        'equipment_id': equipmentId,
-        'quantity': quantityRequired
-    });
-    xhr.send(data);
-}
-
-
-// Filtering equipment method
 document.getElementById('applyFilters').addEventListener('click', function(event) {
-    event.preventDefault();  // Prevent the form from submitting traditionally
+    event.preventDefault();
 
-    // Get filter values
     var nameFilter = document.getElementById('equipment-name').value.toLowerCase();
     var typeFilter = document.getElementById('type').value;
     var availabilityFilter = document.getElementById('availability').value;
@@ -191,33 +159,25 @@ document.getElementById('applyFilters').addEventListener('click', function(event
     var table = document.querySelector('.equipment-table tbody');
     var rows = table.querySelectorAll('tr');
 
-    // Filter rows
     rows.forEach(row => {
         var name = row.cells[0].textContent.toLowerCase();
         var type = row.cells[1].textContent;
         var availability = row.cells[2].textContent.trim();
         var location = row.cells[4].textContent;
 
-        // Check each row if it matches all the filters
-        var nameMatch = nameFilter === "" || name.includes(nameFilter);
-        var typeMatch = typeFilter === "" || type === typeFilter;
-        var availabilityMatch = availabilityFilter === "" || availability.includes(availabilityFilter);
-        var locationMatch = locationFilter === "" || location.includes(locationFilter);
+        var nameMatch = !nameFilter || name.includes(nameFilter);
+        var typeMatch = !typeFilter || type === typeFilter;
+        var availabilityMatch = !availabilityFilter || availability.includes(availabilityFilter);
+        var locationMatch = !locationFilter || location.includes(locationFilter);
 
-        if (nameMatch && typeMatch && availabilityMatch && locationMatch) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+        row.style.display = (nameMatch && typeMatch && availabilityMatch && locationMatch) ? '' : 'none';
     });
 
-    // Close the modal after applying filters
-    modal.style.display = 'none';
+    filterModal.style.display = 'none';
 });
 
-detailsSpan.onclick = function() {
+detailsModal.getElementsByClassName("btn-secondary")[0].onclick = function() {
     detailsModal.style.display = 'none';
 };
-
 </script>
 {% endblock %}
