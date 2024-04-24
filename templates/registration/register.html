@@ -48,14 +48,6 @@
                     {% endfor %}
                 </div>
 
-                <div class="form-field">
-                    <label for="date_of_birth">Date of Birth:</label>
-                    <input type="date" id="date_of_birth" name="date_of_birth" required>
-                    {% for error in form.date_of_birth.errors %}
-                        <p class="error">{{ error }}</p>
-                    {% endfor %}
-                </div>
-
                 <button type="submit">Create Account</button>
             </form>
             <a href="{% url 'inventory:login' %}">Already have an account? Log in here!</a>

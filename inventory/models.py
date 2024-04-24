@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    date_of_birth = models.DateField(null=True, blank=True)
+    # date_of_birth = models.DateField(null=True, blank=False) Notice in development that the DOB is not needed.
     is_approved = models.BooleanField(default=False)
 
     def __str__(self):
@@ -30,6 +30,7 @@ class Location(models.Model):
         return f'{self.location_name}'
 
 
+# Done
 class Equipment(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=100, null=True, blank=True)

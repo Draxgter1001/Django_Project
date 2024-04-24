@@ -10,9 +10,12 @@ class EquipmentAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'is_approved')
+
+
 # Register models with their respective ModelAdmin classes
-admin.site.register(UserProfile)
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Equipment, EquipmentAdmin)
 admin.site.register(Reservation)
 admin.site.register(Location)
-
