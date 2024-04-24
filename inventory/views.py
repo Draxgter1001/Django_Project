@@ -33,6 +33,9 @@ class RegisterView(CreateView):
         UserProfile.objects.update_or_create(user=user, defaults={'is_approved': False})
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        return super(RegisterView, self).form_invalid(form)
+
 
 # Equipment Views
 
