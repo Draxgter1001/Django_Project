@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+<!-- Equipment List Model -->    
 <div class="content">
     <h1>Equipment List</h1>
     <button class="filter-button">Filter list</button>
@@ -24,7 +25,13 @@
         </thead>
         <tbody>
             {% for equipment in equipment_list %}
-            <tr data-equipment-id="{{ equipment.id }}" onclick="showDetailsModal('{{ equipment.id }}')">
+            <tr data-equipment-id="{{ equipment.id }}"
+                data-equipment-name="{{ equipment.name }}"
+                data-equipment-type="{{ equipment.type }}"
+                data-equipment-availability="{{ equipment.availability|yesno:'Available,Not Available' }}"
+                data-equipment-location="{{ equipment.location.location_name }}"
+                data-equipment-quantity="{{ equipment.quantity }}"
+                onclick="showDetailsModal(this)">
                 <td>{{ equipment.name }}</td>
                 <td>{{ equipment.type }}</td>
                 <td>{{ equipment.availability|yesno:"Available, Not Available" }}</td>
@@ -40,19 +47,20 @@
     </table>
 </div>
 
-<!-- Details Modal -->
+<!-- Details Model Window -->
 <div id="equipmentDetailsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="equipmentDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="equipmentDetailsModalLabel">Equipment Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body" id="equipmentDetails">
                 <!-- Equipment details will be dynamically inserted here -->
                 <div>Details for Equipment ID: <span id="modal-equipment-id"></span></div>
+                <div>Equipment Name: <span id="modal-equipment-name"></span></div>
+                <div>Type: <span id="modal-equipment-type"></span></div>
+                <div>Availability: <span id="modal-equipment-availability"></span></div>
+                <div>Location: <span id="modal-equipment-location"></span></div>
                 <label for="quantity-required">Quantity to reserve:</label>
                 <input type="number" id="quantity-required" name="quantity" min="1" placeholder="Enter quantity">
                 <button type="button" id="reserve-button" class="btn btn-primary" onclick="reserveEquipment()">Reserve</button>
@@ -64,7 +72,7 @@
     </div>
 </div>
 
-<!-- Filter Modal -->
+<!-- Filter Model -->
 <div id="filterModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -120,37 +128,57 @@ window.onclick = function(event) {
     }
 };
 
-function showDetailsModal(equipmentId) {
+function showDetailsModal(row) {
+    var equipmentId = row.getAttribute('data-equipment-id');
+    var equipmentName = row.getAttribute('data-equipment-name');
+    var equipmentType = row.getAttribute('data-equipment-type');
+    var equipmentAvailability = row.getAttribute('data-equipment-availability');
+    var equipmentLocation = row.getAttribute('data-equipment-location');
+    var equipmentQuantity = row.getAttribute('data-equipment-quantity');
+
     document.getElementById('modal-equipment-id').textContent = equipmentId;
+    document.getElementById('modal-equipment-name').textContent = equipmentName;
+    document.getElementById('modal-equipment-type').textContent = equipmentType;
+    document.getElementById('modal-equipment-availability').textContent = equipmentAvailability;
+    document.getElementById('modal-equipment-location').textContent = equipmentLocation;
+    document.getElementById('quantity-required').setAttribute('max', equipmentQuantity);
+
     detailsModal.style.display = 'block';
 }
 
+//Reserving equipment
 function reserveEquipment() {
     var equipmentId = document.getElementById('modal-equipment-id').textContent;
     var quantityRequired = document.getElementById('quantity-required').value;
+    var maxQuantity = document.getElementById('quantity-required').getAttribute('max');
 
-    if (!quantityRequired || quantityRequired <= 0) {
-        alert('Please enter a valid quantity.');
+    if (!quantityRequired || quantityRequired <= 0 || quantityRequired > parseInt(maxQuantity)) {
+        alert('Please enter a valid quantity within the available range.');
         return;
     }
 
-    // AJAX request to reserve equipment
+    // Send an AJAX request to the backend to create the reservation
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '{% url "inventory:reserve_equipment" %}', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');  // CSRF token from Django template
-    xhr.onload = function () {
-        if (xhr.status >= 200 && xhr.status < 300) {
-            console.log('Reservation successful', xhr.responseText);
+    xhr.open('POST', '/reserve/');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            alert('Reservation created successfully!');
             detailsModal.style.display = 'none';
         } else {
-            console.log('The request failed', xhr.responseText);
-            alert('Failed to reserve. Please try again.');
+            alert('Failed to create reservation. Please try again.');
         }
     };
-    xhr.send('equipment_id=' + equipmentId + '&quantity_required=' + quantityRequired);
+    var data = JSON.stringify({
+        'equipment_id': equipmentId,
+        'quantity': quantityRequired
+    });
+    xhr.send(data);
 }
 
+
+// Filtering equipment method
 document.getElementById('applyFilters').addEventListener('click', function(event) {
     event.preventDefault();  // Prevent the form from submitting traditionally
 

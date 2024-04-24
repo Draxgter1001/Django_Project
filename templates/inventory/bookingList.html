@@ -1,13 +1,5 @@
 {% extends 'inventory/base.html' %}
 
-{% load static %}
-
-{% block title %}My Booking List{% endblock %}
-
-{% block extra_head %}
-<link rel="stylesheet" href="{% static 'bookingList.css' %}">
-{% endblock %}
-
 {% block content %}
 <div class="content">
     <h1>My Bookings List</h1>
@@ -17,22 +9,24 @@
                 <th>ID</th>
                 <th>Status</th>
                 <th>Equipment</th>
-                <th>Date</th>
-                <th>Location</th>
+                <th>Quantity</th>
+                <th>Start Date</th>
+                <th>End Date</th>
             </tr>
         </thead>
         <tbody>
-            {% for booking in user_reservations %}
+            {% for reservation in reservations %}
                 <tr>
-                    <td>{{ booking.id }}</td>
-                    <td>{{ booking.status }}</td>
-                    <td>{{ booking.equipment.name }}</td>
-                    <td>{{ booking.date_reserved }}</td>
-                    <td>{{ booking.equipment.location }}</td>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.get_status_display }}</td>
+                    <td>{{ reservation.equipment.name }}</td>
+                    <td>{{ reservation.quantity }}</td>
+                    <td>{{ reservation.start_date }}</td>
+                    <td>{{ reservation.end_date }}</td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="5">No bookings found.</td>
+                    <td colspan="6">No bookings found.</td>
                 </tr>
             {% endfor %}
         </tbody>

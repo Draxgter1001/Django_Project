@@ -10,5 +10,3 @@ urlpatterns = [
     path('inventory/', include('inventory.urls')),  # Include the 'inventory' app URLconf
     # ... any other project-level URL patterns
 ]
-
-

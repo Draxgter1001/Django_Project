@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
+
     # date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
@@ -33,7 +34,7 @@ class UserRegisterForm(UserCreationForm):
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['equipment', 'start_date', 'end_date', 'purpose']
+        fields = ['equipment', 'start_date', 'end_date', 'purpose', 'quantity']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),

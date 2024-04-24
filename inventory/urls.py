@@ -9,7 +9,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='inventory:login'), name='logout'),
     path('register/', views.RegisterView.as_view(), name='register'),
-    path('successfulRegistration/', views.successful_registration, name='successful_registration'),
+    path('successful-registration/', views.successful_registration, name='successful_registration'),
     path('home/', views.home, name='home'),
     path('equipment/', views.EquipmentListView.as_view(), name='equipment_list'),
     path('reserve/', views.ReservationCreateView.as_view(), name='reserve_equipment'),
