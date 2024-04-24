@@ -3,10 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.views import View
 from django.views.generic import ListView, CreateView
 from .forms import UserRegisterForm, ReservationForm
 from .models import Equipment, Reservation, UserProfile, Location
@@ -58,10 +56,6 @@ class EquipmentListView(LoginRequiredMixin, ListView):
 def booking_view(request):
     reservations = Reservation.objects.filter(user=request.user)
     return render(request, 'inventory/bookingList.html', {'reservations': reservations})
-
-
-from django.urls import reverse_lazy
-from .forms import ReservationForm
 
 
 class ReservationCreateView(LoginRequiredMixin, CreateView):
