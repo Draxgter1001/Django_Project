@@ -59,6 +59,7 @@ class Reservation(models.Model):
         PENDING = 'Pending', _('Pending')
         APPROVED = 'Approved', _('Approved')
         REJECTED = 'Rejected', _('Rejected')
+        CANCELED = 'Canceled', _('Canceled')
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reservations')
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='reservations')
@@ -67,6 +68,21 @@ class Reservation(models.Model):
     status = models.CharField(max_length=20, choices=ReservationStatus.choices, default=ReservationStatus.PENDING)
     purpose = models.TextField()
     quantity = models.IntegerField(default=0)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__original_status = self.status
+
+    def save(self, *args, **kwargs):
+        # Check if the status has been changed to 'Canceled'
+        if (self.pk and self.status == self.ReservationStatus.CANCELED and self.__original_status !=
+                self.ReservationStatus.CANCELED):
+            # Increment the equipment's quantity by the canceled reservation's quantity
+            self.equipment.quantity += self.quantity
+            self.equipment.save()
+
+        super().save(*args, **kwargs)
+        self.__original_status = self.status  # Update the original status after saving
 
     def __str__(self):
         return f'{self.user.username} - {self.equipment.name}'
