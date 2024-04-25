@@ -3,8 +3,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView
 from .forms import UserRegisterForm, ReservationForm
 from .models import Equipment, Reservation, UserProfile, Location
@@ -54,8 +55,26 @@ class EquipmentListView(LoginRequiredMixin, ListView):
 
 @login_required
 def booking_view(request):
-    reservations = Reservation.objects.filter(user=request.user)
+    reservations = (Reservation.objects.filter(user=request.user).select_related('equipment', 'equipment__location')
+                    .order_by('-start_date'))
     return render(request, 'inventory/bookingList.html', {'reservations': reservations})
+
+
+@login_required
+def cancel_reservation(request, pk):
+    try:
+        reservation = Reservation.objects.get(pk=pk, user=request.user)
+        if reservation.status not in [Reservation.ReservationStatus.APPROVED, Reservation.ReservationStatus.PENDING]:
+            messages.error(request, "Cannot cancel a reservation that is not pending or approved.")
+        else:
+            equipment = reservation.equipment
+            equipment.quantity += reservation.quantity  # Restore the equipment quantity
+            equipment.save()
+            reservation.delete()
+            messages.success(request, "Reservation cancelled successfully.")
+    except Reservation.DoesNotExist:
+        messages.error(request, "Reservation not found.")
+    return HttpResponseRedirect(reverse('inventory:booking_view'))
 
 
 class ReservationCreateView(LoginRequiredMixin, CreateView):
