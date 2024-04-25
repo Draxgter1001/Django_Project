@@ -14,6 +14,7 @@ urlpatterns = [
     path('equipment/', views.EquipmentListView.as_view(), name='equipment_list'),
     path('reserve/', views.ReservationCreateView.as_view(), name='reserve_equipment'),
     path('booking/', views.booking_view, name='booking_view'),
+    path('cancel-reservation/<int:pk>/', views.cancel_reservation, name='cancel_reservation'),
     path('edit-account/', views.edit_account, name='edit_account'),
     # Add other patterns as needed
 ]
