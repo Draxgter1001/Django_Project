@@ -129,7 +129,7 @@ def login_view(request):
 
 
 @login_required
-@staff_member_required # Replace this with the actual permission check for admins
+@staff_member_required  # Replace this with the actual permission check for admins
 def download_report(request, pk):
     equipment_usage_history = EquipmentUsageHistory.objects.get(pk=pk)
 
@@ -150,4 +150,3 @@ def download_report(request, pk):
     p.showPage()
     p.save()
     return response
-
