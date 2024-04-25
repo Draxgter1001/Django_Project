@@ -99,7 +99,7 @@ class EquipmentUsageHistory(models.Model):
         return f"{self.equipment.name} usage history"
 
 
-# Update the Reservation model's save method to increment the times_reserved
+# Update the Reservation model's safe method to increment the times_reserved
 @receiver(post_save, sender=Reservation)
 def update_usage_history(sender, instance, created, **kwargs):
     if created:

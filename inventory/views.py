@@ -8,6 +8,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
 
 from .forms import UserRegisterForm, ReservationForm
@@ -147,6 +149,54 @@ def download_report(request, pk):
         p.drawString(100, 760, f"Last Reserved On: {equipment_usage_history.last_reserved.strftime('%Y-%m-%d')}")
 
     # Close the PDF object cleanly.
+    p.showPage()
+    p.save()
+    return response
+
+
+@login_required
+@staff_member_required
+def download_inventory_report(request):
+    equipment_list = Equipment.objects.all().select_related('location')
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="inventory_report.pdf"'
+
+    p = canvas.Canvas(response, pagesize=A4)
+    width, height = A4
+
+    # Starting Y position near the top of the page
+    y_position = height - inch * 1
+    line_height = 0.2 * inch  # Define the space needed for each line, including some space between lines
+
+    # Define columns positions based on the page width
+    column_1_x = inch * 0.5
+    column_2_x = width / 4
+    column_3_x = width / 2
+    column_4_x = width * 3 / 4
+
+    # Print header
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(column_1_x, y_position, "Inventory Report")
+    y_position -= inch / 2
+
+    p.setFont("Helvetica", 7)
+
+    # Iterate through the equipment list and write to the PDF
+    for equipment in equipment_list:
+        # Check if we need to start a new page
+        if y_position < inch:
+            p.showPage()
+            y_position = height - inch * 1  # Reset y_position for the new page
+            p.setFont("Helvetica", 7)
+
+        p.drawString(column_1_x, y_position, f"{equipment.name}")
+        p.drawString(column_2_x, y_position, f"{equipment.type}")
+        p.drawString(column_3_x, y_position, f"{equipment.quantity}")
+        p.drawString(column_4_x, y_position, f"{equipment.location}")
+
+        y_position -= line_height  # Decrement the y_position for the next line
+
     p.showPage()
     p.save()
     return response

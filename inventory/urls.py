@@ -18,5 +18,7 @@ urlpatterns = [
     path('cancel-reservation/<int:pk>/', views.cancel_reservation, name='cancel_reservation'),
     path('edit-account/', views.edit_account, name='edit_account'),
     path('report/download/<int:pk>/', download_report, name='download_report'),
+    path('report/download-inventory/', views.download_inventory_report, name='download_inventory_report'),
+
     # Add other patterns as needed
 ]

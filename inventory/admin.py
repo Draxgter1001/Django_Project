@@ -8,9 +8,16 @@ from .models import UserProfile, Equipment, Reservation, Location, EquipmentUsag
 
 # Custom ModelAdmin classes
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'quantity', 'availability', 'onsite_only', 'status', 'comments')
+    list_display = ('name', 'type', 'quantity', 'availability', 'onsite_only', 'status', 'comments',
+                    'inventory_report_link')
     list_filter = ('type', 'availability', 'onsite_only')
     search_fields = ('name',)
+
+    def inventory_report_link(self, obj):
+        url = reverse('inventory:download_inventory_report')
+        return format_html('<a href="{}">Download Inventory Report</a>', url)
+
+    inventory_report_link.short_description = 'Inventory Report'
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -20,6 +27,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 class ReservationAdmin(admin.ModelAdmin):
     list_display = ('user', 'equipment', 'start_date', 'end_date', 'status', 'purpose', 'quantity')
     list_filter = ('user', 'equipment', 'start_date', 'end_date')
+
 
 class EquipmentUsageHistoryAdmin(admin.ModelAdmin):
     list_display = ['equipment', 'times_reserved', 'last_reserved', 'download_report_link']
