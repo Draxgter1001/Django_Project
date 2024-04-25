@@ -62,7 +62,9 @@
                     <input type="date" id="start-date" name="start_date" required>
                     <label for="end-date">End Date:</label>
                     <input type="date" id="end-date" name="end_date" required>
-                    <textarea name="purpose" placeholder="Purpose of reservation" required></textarea>
+                    <label>
+                        <textarea name="purpose" placeholder="Purpose of reservation" required></textarea>
+                    </label>
                     <button type="submit" class="btn btn-primary">Reserve</button>
                 </form>
             </div>
@@ -107,11 +109,11 @@
 </div>
 
 <script>
-var filterModal = document.getElementById("filterModal");
-var filterBtn = document.querySelector(".filter-button");
-var filterClose = document.getElementsByClassName("close")[0];
+let filterModal = document.getElementById("filterModal");
+let filterBtn = document.querySelector(".filter-button");
+let filterClose = document.getElementsByClassName("close")[0];
 
-var detailsModal = document.getElementById("equipmentDetailsModal");
+let detailsModal = document.getElementById("equipmentDetailsModal");
 
 filterBtn.onclick = function() {
     filterModal.style.display = "block";
@@ -131,12 +133,12 @@ window.onclick = function(event) {
 };
 
 function showDetailsModal(row) {
-    var equipmentId = row.getAttribute('data-equipment-id');
-    var equipmentName = row.getAttribute('data-equipment-name');
-    var equipmentType = row.getAttribute('data-equipment-type');
-    var equipmentAvailability = row.getAttribute('data-equipment-availability');
-    var equipmentLocation = row.getAttribute('data-equipment-location');
-    var equipmentQuantity = row.getAttribute('data-equipment-quantity');
+    let equipmentId = row.getAttribute('data-equipment-id');
+    let equipmentName = row.getAttribute('data-equipment-name');
+    let equipmentType = row.getAttribute('data-equipment-type');
+    let equipmentAvailability = row.getAttribute('data-equipment-availability');
+    let equipmentLocation = row.getAttribute('data-equipment-location');
+    let equipmentQuantity = row.getAttribute('data-equipment-quantity');
 
     document.getElementById('modal-equipment-id-hidden').value = equipmentId;
     document.getElementById('modal-equipment-name').textContent = equipmentName;
@@ -151,24 +153,24 @@ function showDetailsModal(row) {
 document.getElementById('applyFilters').addEventListener('click', function(event) {
     event.preventDefault();
 
-    var nameFilter = document.getElementById('equipment-name').value.toLowerCase();
-    var typeFilter = document.getElementById('type').value;
-    var availabilityFilter = document.getElementById('availability').value;
-    var locationFilter = document.getElementById('location').value;
+    let nameFilter = document.getElementById('equipment-name').value.toLowerCase();
+    let typeFilter = document.getElementById('type').value;
+    let availabilityFilter = document.getElementById('availability').value;
+    let locationFilter = document.getElementById('location').value;
 
-    var table = document.querySelector('.equipment-table tbody');
-    var rows = table.querySelectorAll('tr');
+    let table = document.querySelector('.equipment-table tbody');
+    let rows = table.querySelectorAll('tr');
 
     rows.forEach(row => {
-        var name = row.cells[0].textContent.toLowerCase();
-        var type = row.cells[1].textContent;
-        var availability = row.cells[2].textContent.trim();
-        var location = row.cells[4].textContent;
+        let name = row.cells[0].textContent.toLowerCase();
+        let type = row.cells[1].textContent;
+        let availability = row.cells[2].textContent.trim();
+        let location = row.cells[4].textContent;
 
-        var nameMatch = !nameFilter || name.includes(nameFilter);
-        var typeMatch = !typeFilter || type === typeFilter;
-        var availabilityMatch = !availabilityFilter || availability.includes(availabilityFilter);
-        var locationMatch = !locationFilter || location.includes(locationFilter);
+        let nameMatch = !nameFilter || name.includes(nameFilter);
+        let typeMatch = !typeFilter || type === typeFilter;
+        let availabilityMatch = !availabilityFilter || availability.includes(availabilityFilter);
+        let locationMatch = !locationFilter || location.includes(locationFilter);
 
         row.style.display = (nameMatch && typeMatch && availabilityMatch && locationMatch) ? '' : 'none';
     });
