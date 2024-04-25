@@ -2,6 +2,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .views import download_report
 
 app_name = 'inventory'  # Define the app namespace
 
@@ -16,5 +17,6 @@ urlpatterns = [
     path('booking/', views.booking_view, name='booking_view'),
     path('cancel-reservation/<int:pk>/', views.cancel_reservation, name='cancel_reservation'),
     path('edit-account/', views.edit_account, name='edit_account'),
+    path('report/download/<int:pk>/', download_report, name='download_report'),
     # Add other patterns as needed
 ]

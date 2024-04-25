@@ -1,14 +1,17 @@
 # views.py
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView
+from reportlab.pdfgen import canvas
+
 from .forms import UserRegisterForm, ReservationForm
-from .models import Equipment, Reservation, UserProfile, Location
+from .models import Equipment, Reservation, UserProfile, Location, EquipmentUsageHistory
 
 
 # Authentication and Registration Views
@@ -123,3 +126,28 @@ def login_view(request):
             messages.error(request, 'Invalid username or password.')
 
     return render(request, 'registration/login.html')
+
+
+@login_required
+@staff_member_required # Replace this with the actual permission check for admins
+def download_report(request, pk):
+    equipment_usage_history = EquipmentUsageHistory.objects.get(pk=pk)
+
+    response = HttpResponse(content_type='application/pdf')
+    response[
+        'Content-Disposition'] = f'attachment; filename="{equipment_usage_history.equipment.name}_usage_report.pdf"'
+
+    # Create the PDF object, using the response object as its "file."
+    p = canvas.Canvas(response)
+
+    # Draw things on the PDF.
+    p.drawString(100, 800, f"Usage Report for: {equipment_usage_history.equipment.name}")
+    p.drawString(100, 780, f"Times Reserved: {equipment_usage_history.times_reserved}")
+    if equipment_usage_history.last_reserved:
+        p.drawString(100, 760, f"Last Reserved On: {equipment_usage_history.last_reserved.strftime('%Y-%m-%d')}")
+
+    # Close the PDF object cleanly.
+    p.showPage()
+    p.save()
+    return response
+

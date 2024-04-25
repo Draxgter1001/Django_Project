@@ -4,6 +4,8 @@ from django.db import models
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
 
@@ -86,3 +88,30 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.equipment.name}'
+
+
+class EquipmentUsageHistory(models.Model):
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
+    times_reserved = models.IntegerField(default=0)
+    last_reserved = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.equipment.name} usage history"
+
+
+# Update the Reservation model's save method to increment the times_reserved
+@receiver(post_save, sender=Reservation)
+def update_usage_history(sender, instance, created, **kwargs):
+    if created:
+        history, _ = EquipmentUsageHistory.objects.get_or_create(equipment=instance.equipment)
+        history.times_reserved += 1
+        history.last_reserved = instance.start_date
+        history.save()
+
+
+@receiver(post_delete, sender=Reservation)
+def decrement_usage_history(sender, instance, **kwargs):
+    history = EquipmentUsageHistory.objects.filter(equipment=instance.equipment).first()
+    if history:
+        history.times_reserved -= 1
+        history.save()
