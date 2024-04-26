@@ -62,7 +62,7 @@
                     <label for="quantity-required">Quantity:</label>
                     <input type="number" id="quantity-required" name="quantity" min="1" placeholder="Enter quantity" required>
                     <label for="start-date">Start Date:</label>
-                    <input type="date" id="start-date" name="start_date" required>
+                    <input type="date" id="start-date" name="start_date" min="{{ today }}" required>
                     <label>
                         <textarea id="purpose" name="purpose" placeholder="Purpose of reservation" required></textarea>
                     </label>
@@ -119,6 +119,10 @@ closeButtons.forEach(function(btn) {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    let today = new Date().toISOString().split('T')[0];
+    document.getElementById('start-date').setAttribute('min', today);
+});
 
 let detailsModal = document.getElementById("equipmentDetailsModal");
 
@@ -138,6 +142,8 @@ window.onclick = function(event) {
         detailsModal.style.display = "none";
     }
 };
+
+
 
 function showDetailsModal(row) {
     let equipmentId = row.getAttribute('data-equipment-id');
