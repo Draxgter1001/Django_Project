@@ -1,3 +1,4 @@
+# Tafshi Uthshow Hoque, Rafael Rojas Vivanc & Rishabh Kabawala
 # App-level urls.py
 from django.urls import path
 from django.contrib.auth import views as auth_views

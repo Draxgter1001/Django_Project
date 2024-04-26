@@ -1,3 +1,5 @@
+# Tafshi Uthshow Hoque
+
 from openpyxl import load_workbook
 from django.core.management.base import BaseCommand
 from inventory.models import Equipment, Location

@@ -1,3 +1,4 @@
+# Tafshi Uthshow Hoque, Rafael Rojas Vivanc & Rishabh Kabawala
 # views.py
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login

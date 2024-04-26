@@ -1,7 +1,6 @@
-# models.py
-from django.db import models
+# Tafshi Uthshow Hoque, Rafael Rojas Vivanc & Rishabh Kabawala
 
-# Create your models here.
+# models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete

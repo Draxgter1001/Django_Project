@@ -1,3 +1,4 @@
+# Tafshi Uthshow Hoque & Rafael Rojas Vivanc
 # admin.py
 from django.contrib import admin
 from django.urls import reverse

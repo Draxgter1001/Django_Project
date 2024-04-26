@@ -1,3 +1,4 @@
+# Tafshi Uthshow Hoque, Rafael Rojas Vivanc & Rishabh Kabawala
 # Project-level urls.py
 from django.contrib import admin
 from django.urls import include, path
