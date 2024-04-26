@@ -1,7 +1,6 @@
 <!-- Rishabh Kabawala, Rafael Rojas Vivanc, Sophie Earish & Simona Bosilkova -->
 
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +35,12 @@
                 <button type="submit">Log In</button>
             </form>
             <a href="{% url 'inventory:register' %}">Don't have an account? Sign up here!</a>
+
             <a href="{% url 'admin:login' %}">Login as an admin</a>
+
+            <!-- Admin Login Link -->
+            <a href="{% url 'admin:login' %}" class="admin-login-link">Login as an Admin? Click here!</a>
+
         </div>
     </div>
 </body>
