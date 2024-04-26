@@ -131,7 +131,7 @@ def login_view(request):
 
 
 @login_required
-@staff_member_required  # Replace this with the actual permission check for admins
+@staff_member_required
 def download_report(request, pk):
     equipment_usage_history = EquipmentUsageHistory.objects.get(pk=pk)
 
@@ -139,16 +139,26 @@ def download_report(request, pk):
     response[
         'Content-Disposition'] = f'attachment; filename="{equipment_usage_history.equipment.name}_usage_report.pdf"'
 
-    # Create the PDF object, using the response object as its "file."
-    p = canvas.Canvas(response)
+    p = canvas.Canvas(response, pagesize=A4)
+    width, height = A4
 
-    # Draw things on the PDF.
-    p.drawString(100, 800, f"Usage Report for: {equipment_usage_history.equipment.name}")
-    p.drawString(100, 780, f"Times Reserved: {equipment_usage_history.times_reserved}")
+    y_position = height - inch * 1
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(inch * 0.5, y_position, f"Usage Report for: {equipment_usage_history.equipment.name}")
+
+    line_height = 0.2 * inch
+    x_position = inch * 0.5
+    y_position -= 2 * line_height
+
+    p.setFont("Helvetica", 11)
+    p.drawString(x_position, y_position, f"Times Reserved: {equipment_usage_history.times_reserved}")
+    y_position -= line_height
+
     if equipment_usage_history.last_reserved:
-        p.drawString(100, 760, f"Last Reserved On: {equipment_usage_history.last_reserved.strftime('%Y-%m-%d')}")
+        p.drawString(x_position, y_position,
+                     f"Last Reserved On: {equipment_usage_history.last_reserved.strftime('%Y-%m-%d')}")
+        y_position -= line_height
 
-    # Close the PDF object cleanly.
     p.showPage()
     p.save()
     return response
@@ -173,12 +183,19 @@ def download_inventory_report(request):
     column_1_x = inch * 0.5
     column_2_x = width / 4
     column_3_x = width / 2
-    column_4_x = width * 3 / 4
+    column_4_x = width / 5 * 3 + 60
 
     # Print header
     p.setFont("Helvetica-Bold", 14)
     p.drawString(column_1_x, y_position, "Inventory Report")
     y_position -= inch / 2
+
+    p.setFont("Helvetica-Bold", 10)
+    p.drawString(column_1_x, y_position, "Equipment Name")
+    p.drawString(column_2_x, y_position, "Type")
+    p.drawString(column_3_x, y_position, "Quantity")
+    p.drawString(column_4_x, y_position, "Location")
+    y_position -= line_height  # Move to the next line for equipment entries
 
     p.setFont("Helvetica", 7)
 
