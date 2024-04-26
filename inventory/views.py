@@ -12,6 +12,7 @@ from django.views.generic import ListView, CreateView
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
+import datetime
 
 from .forms import UserRegisterForm, ReservationForm
 from .models import Equipment, Reservation, UserProfile, Location, EquipmentUsageHistory
@@ -86,12 +87,16 @@ def cancel_reservation(request, pk):
 class ReservationCreateView(LoginRequiredMixin, CreateView):
     model = Reservation
     form_class = ReservationForm
+    template_name = 'inventory/bookingList.html'
     success_url = reverse_lazy('inventory:booking_view')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         reservation = form.save(commit=False)
         equipment = reservation.equipment
+        start_date = form.cleaned_data['start_date']
+
+        reservation.end_date = start_date + datetime.timedelta(days=7)
 
         if equipment.quantity >= reservation.quantity:
             equipment.quantity -= reservation.quantity

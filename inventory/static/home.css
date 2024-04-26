@@ -1,0 +1,114 @@
+body {
+  background-color: RGB(20, 33, 61);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  color: rgb(20, 33, 61);
+  padding: 20px;
+}
+
+.container {
+  background-color: rgb(252, 163, 17);
+  padding: 125px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* optional: added shadow for aesthetics */
+}
+
+h3{
+  color: white;
+  font-weight: bold;
+}
+
+.card-text{
+  color: black;
+  margin:auto;
+  text-align: center;
+  padding-top: 10px;
+  font-weight: bolder;
+}
+
+p a:link {
+  color: black;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+p a:visited {
+  color: rgb(20, 33, 61);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+p a:hover {
+  color: rgb(252, 163, 17);
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+p a:active {
+  color: rgb(252, 163, 17);
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+img {
+  border-radius: 15px; /* Assuming you want rounded corners on the image too */
+  height: 75%;
+  width: 75%;
+}
+
+.img-container {
+  background-color: white;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center; /* Horizontally centers the content */
+  align-items: center; /* Vertically centers the content */
+  text-align: center;
+  width: 50%; /* Adjust this as needed */
+  height: 50%; /* Adjust this as needed */
+  margin-left: 25%;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-around; /* Adjusts the spacing around items */
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.card-link {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  flex: 1 1 300px; /* Grow and shrink from the basis of 300px */
+  min-height: 200px; /* Minimum height of each card */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 275px;
+}
+
+.card:hover {
+  transform: scale(1.10); /* Slightly enlarge the card on hover */
+  transition: 1.25s;
+}
+.card p {
+  margin: 0; /* Removes default paragraph margin which can cause layout issues */
+  overflow: hidden; /* Hides text that overflows the card's bounds */
+  text-overflow: ellipsis; /* Shows an ellipsis if the text overflows */
+  white-space: nowrap; /* Keeps the text on a single line */
+}

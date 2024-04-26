@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Reservation, Equipment
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 class UserRegisterForm(UserCreationForm):
@@ -33,28 +34,18 @@ class UserRegisterForm(UserCreationForm):
 
 
 class ReservationForm(forms.ModelForm):
+    start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'min': timezone.now().date()}))
+
     class Meta:
         model = Reservation
-        fields = ['equipment', 'start_date', 'end_date', 'purpose', 'quantity']
-        widgets = {
-            'start_date': forms.DateInput(attrs={'type': 'date'}),
-            'end_date': forms.DateInput(attrs={'type': 'date'}),
-        }
+        fields = ['equipment', 'start_date', 'purpose', 'quantity']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        equipment = cleaned_data.get('equipment')
-        quantity = cleaned_data.get('quantity')
+    def clean_start_date(self):
+        start_date = self.cleaned_data.get('start_date')
+        if start_date < timezone.now().date():
+            raise forms.ValidationError("The start date must be today or in the future.")
 
-        if equipment and quantity and equipment.quantity < quantity:
-            raise forms.ValidationError("Insufficient equipment quantity available.")
-
-        start_date = cleaned_data.get('start_date')
-        end_date = cleaned_data.get('end_date')
-        if start_date and end_date and end_date < start_date:
-            raise forms.ValidationError("End date should be after start date.")
-
-        return cleaned_data
+        return start_date
 
 
 class EquipmentForm(forms.ModelForm):

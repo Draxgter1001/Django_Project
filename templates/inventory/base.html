@@ -1,3 +1,5 @@
+<!--Simona Bosilkova -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,45 +10,99 @@
     <title>{% block title %}Django Project{% endblock %}</title>
     <style>
         /* Add your base CSS here */
-
+        html {
+          height: 100%;
+          box-sizing: border-box; /* Make sure padding and borders don't affect the total width/height */
+        }
+        
+        *, *:before, *:after {
+          box-sizing: inherit;
+        }
+        
+        body {
+          display: flex;
+          flex-direction: column;
+          min-height: 100%;
+          margin: 0;
+        }
+        
         /* Additional styles for navigation bar */
         nav {
-            background-color: rgb(20, 33, 61);
-            padding: 0.5em 0;
+            display: flex;
+            justify-content: center; /* Centering child elements */
+            align-items: center;
+            padding: 20px;
         }
         nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
             display: flex;
-            justify-content: center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            align-items: center; /* Ensure all items are aligned */
+            justify-content: center; /* Center the list in the navigation */
         }
         nav ul li {
-            margin: 0 1em;
+            margin-right: 20px;
+            margin-left: 20px; /* Added equal spacing on both sides for symmetry */
         }
-        nav ul li a {
-            color: white;
+        
+        /* Apply a consistent font-size and line-height to all link and button elements */
+        nav ul li a, nav ul li button {
+            font-size: 1em; /* Set a default font size */
+            line-height: 1.5em; /* Set a default line height */
             text-decoration: none;
+            color: rgb(252, 163, 17);
             padding: 0.25em 1em;
-            transition: color 0.3s ease;
-        }
-        nav ul li a:hover {
-            color: #069;
-            text-decoration: underline;
-        }
-        nav ul li form {
-            display: inline;
-        }
-        nav ul li button {
-            background: none;
             border: none;
-            padding: 0;
-            color: white;
-            text-decoration: underline;
+            background: none;
             cursor: pointer;
         }
-        nav ul li button:hover {
-            color: #069;
+        
+        /* Reset the form margins and padding to ensure it aligns with other elements */
+        /* Existing styles */
+
+        /* Additional reset for forms to remove any browser-specific padding/margins */
+        nav ul li form {
+            padding: 0;
+            margin: 0;
+            display: inline; /* Align with the inline nature of links */
+        }
+        
+        /* Additional reset for buttons to remove any browser-specific padding/margins */
+        nav ul li button {
+            font-family: inherit; /* Buttons inherit font-family for consistency */
+            font-size: inherit; /* Ensure the button font size is the same as the links */
+            vertical-align: middle; /* Align the button vertically with the links */
+        }
+        
+        /* Ensure the button has the same padding, margin, and alignment as the links */
+        nav ul li form button {
+            padding: 0.25em 1em;
+            margin: 0;
+            border: none;
+            background: none;
+            color: rgb(252, 163, 17);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block; /* Treat the button like an inline-block element */
+            vertical-align: middle; /* Align the button vertically with the links */
+        }
+        
+        /* Updated hover effect for consistency */
+        nav ul li a:hover, nav ul li button:hover {
+            color: rgb(134, 87, 5);
+        }
+        
+        main {
+          flex: 1 0 auto; /* This will allow the main content to expand and push the footer down */
+          padding-bottom: 150px; /* Add bottom padding to make space for the footer */
+        }
+        
+        footer {
+          text-align: center;
+          color: white;
+          padding: 10px 0;
+          width: 100%;
         }
     </style>
     {% block extra_head %}{% endblock %}

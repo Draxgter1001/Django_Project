@@ -8,20 +8,20 @@ body {
 .top-content {
     display: flex;
     justify-content: space-between; /* Distribute space between child elements */
-    align-items: center; 
-    padding: 20px; 
+    align-items: center;
+    padding: 20px;
 }
 
 .inline-text ul {
-    display: flex; 
-    list-style-type: none; 
-    margin: 0; 
-    padding: 0; 
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 .inline-text li {
     color: rgb(252, 163, 17);
-    margin-right: 20px; 
+    margin-right: 20px;
 }
 
 .inline-text a {
@@ -38,15 +38,19 @@ h1 {
     margin-right: 20px; /* Spacing between the title and the filter button */
 }
 
-.filter-button {
+.filter-button{
     background-color: rgb(252, 163, 17);
     color: RGB(20, 33, 61);
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    padding: 10px 15px;
     font-size: 1em;
-    display: inline-block; /* To align with the h1 */
+    width: 100%;
+}
+
+.btn-btn-secondary,
+.btn-btn-primary{
+    width: 100%;
 }
 
 .equipment-table {
@@ -70,41 +74,64 @@ h1 {
     background-color: #2C3E50;
 }
 
+.equipment-table tr:hover td,
+.equipment-table tr:hover  {
+    background-color: #a2700f;
+    cursor: pointer;
+}
 
 /*for the pop up filter*/
 .modal {
-    display: none; 
+    display: none;
     position: fixed;
-    z-index: 1; 
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
-  }
-  
-  .modal-content {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
     background-color: rgb(252, 163, 17);
-    margin: 15% auto; 
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; 
-    color: black; 
-  }
-  
-  .close {
-    color: #aaa;
+    width: 50%;
+    color: black;
+}
+
+#quantity-required{
+    width: 15%;
+}
+
+#purpose{
+    display: block;
+    width: calc(100% - 20px);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #888;
+    box-sizing: border-box;
+    background-color: #d2d2d2;
+}
+
+#applyFilters{
+    width: 100%;
+}
+
+.close {
+    color: #000000;
     float: right;
     font-size: 28px;
     font-weight: bold;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: black;
+}
+
+.close:hover,
+.close:focus {
+    color: #827257;
     text-decoration: none;
     cursor: pointer;
-  }
-  
+}
