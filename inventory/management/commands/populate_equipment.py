@@ -1,3 +1,5 @@
+# Tafshi Uthshow Hoque
+
 from openpyxl import load_workbook
 from django.core.management.base import BaseCommand
 from inventory.models import Equipment, Location
@@ -8,7 +10,7 @@ class Command(BaseCommand):
     help = 'Load equipment data from Excel file using openpyxl'
 
     def handle(self, *args, **options):
-        file_path = r'/Users/rafaelrojas/PycharmProjects/djangoProjectGroup/media/equipment.xlsx'
+        file_path = r'/Users/uthsh/PycharmProjects/djangoProjectGroup2/media/equipment.xlsx'
         wb = load_workbook(filename=file_path)
         ws = wb['MainInventory']
 

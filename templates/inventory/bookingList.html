@@ -1,13 +1,5 @@
 {% extends 'inventory/base.html' %}
 
-{% load static %}
-
-{% block title %}My Booking List{% endblock %}
-
-{% block extra_head %}
-<link rel="stylesheet" href="{% static 'bookingList.css' %}">
-{% endblock %}
-
 {% block content %}
 <div class="content">
     <h1>My Bookings List</h1>
@@ -17,25 +9,37 @@
                 <th>ID</th>
                 <th>Status</th>
                 <th>Equipment</th>
-                <th>Date</th>
+                <th>Start Date</th>
+                <th>End Date</th>
                 <th>Location</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            {% for booking in user_reservations %}
-                <tr>
-                    <td>{{ booking.id }}</td>
-                    <td>{{ booking.status }}</td>
-                    <td>{{ booking.equipment.name }}</td>
-                    <td>{{ booking.date_reserved }}</td>
-                    <td>{{ booking.equipment.location }}</td>
-                </tr>
+            {% for booking in reservations %}
+            <tr>
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.status }}</td>
+                <td>{{ booking.equipment.name }}</td>
+                <td>{{ booking.start_date }}</td>
+                <td>{{ booking.end_date }}</td>
+                <td>{{ booking.equipment.location.location_name }}</td>
+                <td>
+                    {% if booking.status in "Pending Approved" %}
+                    <form action="{% url 'inventory:cancel_reservation' booking.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Cancel</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
             {% empty %}
-                <tr>
-                    <td colspan="5">No bookings found.</td>
-                </tr>
+            <tr>
+                <td colspan="7">No bookings found.</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
 {% endblock %}
+
