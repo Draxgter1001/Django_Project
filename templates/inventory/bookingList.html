@@ -1,4 +1,11 @@
+<!--Simona Bosilkova -->
 {% extends 'inventory/base.html' %}
+
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'bookingList.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="content">
@@ -42,4 +49,3 @@
     </table>
 </div>
 {% endblock %}
-

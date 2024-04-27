@@ -1,12 +1,36 @@
 <!-- home.html -->
+<!-- Sophie Earish -->
 {% extends 'inventory/base.html' %}
+{% load static %}
 
 {% block title %}Home{% endblock title %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container">
+    <div class="img-container">
+        <img src="{% static 'images/Yhuens_Vault.png' %}" alt="Vault Image" />
+    </div>
     <h1>Welcome to the CSE Equipment Inventory System</h1>
-    <p>This is the homepage of your inventory system.</p>
-    <!-- Additional homepage content -->
+    <h3>Let's get started...</h3>
+   <div class="card-container">
+  <a href="{% url 'inventory:equipment_list' %}" class="card-link" aria-label="View Equipment List">
+    <div class="card">
+      <p class="card-text">Equipment List</p>
+    </div>
+  </a>
+  <a href="{% url 'inventory:booking_view' %}" class="card-link" aria-label="View My Bookings">
+    <div class="card">
+      <p class="card-text">View My Bookings</p>
+    </div>
+  </a>
+  <a href="{% url 'inventory:edit_account' %}" class="card-link" aria-label="Update Account Info">
+    <div class="card">
+      <p class="card-text">Update Account Info</p>
+    </div>
+  </a>
+</div>
 </div>
 {% endblock content %}

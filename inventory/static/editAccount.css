@@ -1,3 +1,4 @@
+/*Simona Bosilkova */
 body {
     background-color: RGB(20, 33, 61);
 }
@@ -14,24 +15,6 @@ h1 {
     align-items: center; /* Vertically align items */
     padding: 20px; /* Add some padding */
 }
-
-.inline-text ul {
-    display: flex; /* Display list items horizontally */
-    list-style-type: none; /* Remove default list styling */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
-}
-
-.inline-text li {
-    color: rgb(252, 163, 17);
-    margin-right: 20px; /* Adjust margin as needed */
-}
-
-.inline-text a {
-    text-decoration: none;
-    color: rgb(252, 163, 17);
-}
-
 
 /* formatting for the main body of the page */
 .content {
@@ -81,15 +64,23 @@ input[type="checkbox"] {
     width: 100%; /* Ensure the button container takes full width */
 }
 
+
 button {
     width: calc(100% - 50%);
     height: 30px;
-    flex: none;
     border: none;
     border-radius: 5px;
-    background-color: rgb(252, 163, 17);
-    color: rgb(20, 33, 61);
-    font-weight: bold;
+    background-color: #004165;
+    color: rgb(252, 163, 17);
     cursor: pointer;
     margin-top: 10px;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: rgb(252, 163, 17);
+    color: RGB(20, 33, 61);
 }

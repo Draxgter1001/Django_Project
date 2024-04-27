@@ -1,6 +1,7 @@
 <!-- Rishabh Kabawala, Rafael Rojas Vivanc, Sophie Earish & Simona Bosilkova -->
 
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,14 +14,14 @@
 <body>
     <div class="flex-container">
         <div class="image-container">
-            <img src="{% static 'images/IMG_2913.jpeg' %}" alt="Vault Image" />
+            <img src="{% static 'images/Yhuens_Vault.png' %}" alt="Vault Image" />
         </div>
         <div class="login-container">
-            <h2>YHUEN'S VAULT</h2>
+            <h2>LOG IN</h2>
             {% if messages %}
                 <div class="error-messages">
                     {% for message in messages %}
-                    <span class="error">{{ message }}</span>
+                        <span class="error">{{ message }}</span>
                     {% endfor %}
                 </div>
             {% endif %}
@@ -28,19 +29,14 @@
                 {% csrf_token %}
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" required />
-            
+
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required />
-            
+
                 <button type="submit">Log In</button>
             </form>
             <a href="{% url 'inventory:register' %}">Don't have an account? Sign up here!</a>
-
             <a href="{% url 'admin:login' %}">Login as an admin</a>
-
-            <!-- Admin Login Link -->
-            <a href="{% url 'admin:login' %}" class="admin-login-link">Login as an Admin? Click here!</a>
-
         </div>
     </div>
 </body>

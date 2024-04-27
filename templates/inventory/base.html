@@ -1,3 +1,5 @@
+<!--Simona Bosilkova -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,46 +9,96 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <title>{% block title %}Django Project{% endblock %}</title>
     <style>
-        /* Add your base CSS here */
+        html {
+          height: 100%;
+          box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+          box-sizing: inherit;
+        }
+
+        body {
+          display: flex;
+          flex-direction: column;
+          min-height: 100%;
+          margin: 0;
+        }
 
         /* Additional styles for navigation bar */
         nav {
-            background-color: rgb(20, 33, 61);
-            padding: 0.5em 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
         nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
             display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
             justify-content: center;
         }
         nav ul li {
-            margin: 0 1em;
+            margin-right: 20px;
+            margin-left: 20px;
         }
-        nav ul li a {
-            color: white;
+
+
+        nav ul li a, nav ul li button {
+            font-size: 1em;
+            line-height: 1.5em;
             text-decoration: none;
+            color: rgb(252, 163, 17);
             padding: 0.25em 1em;
-            transition: color 0.3s ease;
-        }
-        nav ul li a:hover {
-            color: #069;
-            text-decoration: underline;
-        }
-        nav ul li form {
-            display: inline;
-        }
-        nav ul li button {
-            background: none;
             border: none;
-            padding: 0;
-            color: white;
-            text-decoration: underline;
+            background: none;
             cursor: pointer;
         }
-        nav ul li button:hover {
-            color: #069;
+
+        /* Additional reset for forms to remove any browser-specific padding/margins */
+        nav ul li form {
+            padding: 0;
+            margin: 0;
+            display: inline;
+        }
+
+        /* Additional reset for buttons to remove any browser-specific padding/margins */
+        nav ul li button {
+            font-family: inherit;
+            font-size: inherit;
+            vertical-align: middle;
+        }
+
+
+        nav ul li form button {
+            padding: 0.25em 1em;
+            margin: 0;
+            border: none;
+            background: none;
+            color: rgb(252, 163, 17);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Updated hover effect for consistency */
+        nav ul li a:hover, nav ul li button:hover {
+            color: rgb(134, 87, 5);
+        }
+
+        main {
+          flex: 1 0 auto;
+          padding-bottom: 150px;
+        }
+
+        footer {
+          text-align: center;
+          color: white;
+          padding: 5px 0;
+          width: 100%;
         }
     </style>
     {% block extra_head %}{% endblock %}

@@ -47,33 +47,34 @@ button {
   text-decoration: underline;
 }
 
-.login-container {
-  flex: none; /* Do not grow or shrink */
-  padding: 100px;
-  border-radius: 5px;
-}
-
 .flex-container {
   display: flex;
-  justify-content: center; /* Center the items without adding space around */
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100%;
 }
 .image-container {
-  flex: none;
-  display: flex;
-  max-width: 50%; /* Adjust to ensure the image is fully visible */
-  max-height: 50%;
-  justify-content: end; /* Align items to the center */
-  align-items: end;
+  max-width: 80%;
+  max-height: 100%;
+  margin-bottom: 20px;
 }
 
 .image-container img {
-  max-width: 75%; /* Change this value to make the image smaller */
-  max-height: 75%; /* You can also set a max-height if needed */
+  width: 65%;
+  height: auto;
+  padding-left: 20%;
+}
+
+.login-container {
+  width: 90%;
+  max-width: 400px;
+  padding: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
 .error-messages .error {
     color: red;
-    /* Additional styling */
 }
