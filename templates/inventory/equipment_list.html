@@ -41,7 +41,25 @@
         </tbody>
     </table>
 </div>
+    
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
 
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+    
 <!-- Equipment Reservation Modal -->
 <div id="equipmentDetailsModal" class="modal">
     <div class="modal-dialog" role="document">
@@ -107,45 +125,68 @@
 </div>
 
 <script>
-let filterModal = document.getElementById("filterModal");
-let filterBtn = document.querySelector(".filter-button");
-let closeButtons = Array.from(document.getElementsByClassName("close"));
-
-closeButtons.forEach(function(btn) {
-    btn.onclick = function() {
-        // Hide the modal that contains this button
-        let modal = btn.closest('.modal');
-        modal.style.display = "none";
-    }
-});
-
 document.addEventListener('DOMContentLoaded', function () {
     let today = new Date().toISOString().split('T')[0];
     document.getElementById('start-date').setAttribute('min', today);
+
+    let filterModal = document.getElementById("filterModal");
+    let detailsModal = document.getElementById("equipmentDetailsModal");
+    let filterBtn = document.querySelector(".filter-button");
+    let closeButtons = Array.from(document.getElementsByClassName("close"));
+
+    closeButtons.forEach(btn => {
+        btn.onclick = function() {
+            btn.closest('.modal').style.display = "none";
+        }
+    });
+
+    filterBtn.onclick = function() {
+        filterModal.style.display = "block";
+    };
+
+    window.onclick = function(event) {
+        if (event.target === filterModal) {
+            filterModal.style.display = "none";
+        }
+        if (event.target === detailsModal) {
+            detailsModal.style.display = "none";
+        }
+    };
+
+    document.getElementById('applyFilters').addEventListener('click', function(event) {
+        event.preventDefault();
+        applyFilters();
+        filterModal.style.display = 'none';
+    });
 });
 
-let detailsModal = document.getElementById("equipmentDetailsModal");
+function applyFilters() {
+    let nameFilter = document.getElementById('equipment-name').value.toLowerCase();
+    let typeFilter = document.getElementById('type').value;
+    let availabilityFilter = document.getElementById('availability').value;
+    let locationFilter = document.getElementById('location').value;
 
-filterBtn.onclick = function() {
-    filterModal.style.display = "block";
-};
+    let table = document.querySelector('.equipment-table tbody');
+    let rows = table.querySelectorAll('tr');
 
-filterClose.onclick = function() {
-    filterModal.style.display = "none";
-};
+    rows.forEach(row => {
+        let name = row.cells[0].textContent.toLowerCase().trim();
+        let type = row.cells[1].textContent.trim();
+        let availability = row.cells[2].textContent.trim();
+        let location = row.cells[4].textContent.trim();
 
-window.onclick = function(event) {
-    if (event.target === filterModal) {
-        filterModal.style.display = "none";
-    }
-    if (event.target === detailsModal) {
-        detailsModal.style.display = "none";
-    }
-};
+        let nameMatch = !nameFilter || name.includes(nameFilter);
+        let typeMatch = !typeFilter || type === typeFilter;
+        let availabilityMatch = !availabilityFilter || availability.includes(availabilityFilter);
+        let locationMatch = !locationFilter || location.includes(locationFilter);
 
-
+        row.style.display = (nameMatch && typeMatch && availabilityMatch && locationMatch) ? '' : 'none';
+    });
+}
 
 function showDetailsModal(row) {
+    let detailsModal = document.getElementById("equipmentDetailsModal");
+
     let equipmentId = row.getAttribute('data-equipment-id');
     let equipmentName = row.getAttribute('data-equipment-name');
     let equipmentType = row.getAttribute('data-equipment-type');
@@ -162,37 +203,5 @@ function showDetailsModal(row) {
 
     detailsModal.style.display = 'block';
 }
-
-document.getElementById('applyFilters').addEventListener('click', function(event) {
-    event.preventDefault();
-
-    let nameFilter = document.getElementById('equipment-name').value.toLowerCase();
-    let typeFilter = document.getElementById('type').value;
-    let availabilityFilter = document.getElementById('availability').value;
-    let locationFilter = document.getElementById('location').value;
-
-    let table = document.querySelector('.equipment-table tbody');
-    let rows = table.querySelectorAll('tr');
-
-    rows.forEach(row => {
-        let name = row.cells[0].textContent.toLowerCase();
-        let type = row.cells[1].textContent;
-        let availability = row.cells[2].textContent.trim();
-        let location = row.cells[4].textContent;
-
-        let nameMatch = !nameFilter || name.includes(nameFilter);
-        let typeMatch = !typeFilter || type === typeFilter;
-        let availabilityMatch = !availabilityFilter || availability.includes(availabilityFilter);
-        let locationMatch = !locationFilter || location.includes(locationFilter);
-
-        row.style.display = (nameMatch && typeMatch && availabilityMatch && locationMatch) ? '' : 'none';
-    });
-
-    filterModal.style.display = 'none';
-});
-
-detailsModal.getElementsByClassName("btn-btn-secondary")[0].onclick = function() {
-    detailsModal.style.display = 'none';
-};
 </script>
 {% endblock %}

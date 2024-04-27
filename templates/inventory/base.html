@@ -9,10 +9,9 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <title>{% block title %}Django Project{% endblock %}</title>
     <style>
-        /* Add your base CSS here */
         html {
           height: 100%;
-          box-sizing: border-box; /* Make sure padding and borders don't affect the total width/height */
+          box-sizing: border-box; 
         }
         
         *, *:before, *:after {
@@ -29,7 +28,7 @@
         /* Additional styles for navigation bar */
         nav {
             display: flex;
-            justify-content: center; /* Centering child elements */
+            justify-content: center; 
             align-items: center;
             padding: 20px;
         }
@@ -38,18 +37,18 @@
             list-style-type: none;
             margin: 0;
             padding: 0;
-            align-items: center; /* Ensure all items are aligned */
-            justify-content: center; /* Center the list in the navigation */
+            align-items: center; 
+            justify-content: center; 
         }
         nav ul li {
             margin-right: 20px;
-            margin-left: 20px; /* Added equal spacing on both sides for symmetry */
+            margin-left: 20px;
         }
         
-        /* Apply a consistent font-size and line-height to all link and button elements */
+        
         nav ul li a, nav ul li button {
-            font-size: 1em; /* Set a default font size */
-            line-height: 1.5em; /* Set a default line height */
+            font-size: 1em; 
+            line-height: 1.5em; 
             text-decoration: none;
             color: rgb(252, 163, 17);
             padding: 0.25em 1em;
@@ -58,24 +57,21 @@
             cursor: pointer;
         }
         
-        /* Reset the form margins and padding to ensure it aligns with other elements */
-        /* Existing styles */
-
         /* Additional reset for forms to remove any browser-specific padding/margins */
         nav ul li form {
             padding: 0;
             margin: 0;
-            display: inline; /* Align with the inline nature of links */
+            display: inline; 
         }
         
         /* Additional reset for buttons to remove any browser-specific padding/margins */
         nav ul li button {
-            font-family: inherit; /* Buttons inherit font-family for consistency */
-            font-size: inherit; /* Ensure the button font size is the same as the links */
-            vertical-align: middle; /* Align the button vertically with the links */
+            font-family: inherit; 
+            font-size: inherit; 
+            vertical-align: middle; 
         }
         
-        /* Ensure the button has the same padding, margin, and alignment as the links */
+       
         nav ul li form button {
             padding: 0.25em 1em;
             margin: 0;
@@ -84,8 +80,8 @@
             color: rgb(252, 163, 17);
             cursor: pointer;
             text-decoration: none;
-            display: inline-block; /* Treat the button like an inline-block element */
-            vertical-align: middle; /* Align the button vertically with the links */
+            display: inline-block; 
+            vertical-align: middle; 
         }
         
         /* Updated hover effect for consistency */
@@ -94,14 +90,14 @@
         }
         
         main {
-          flex: 1 0 auto; /* This will allow the main content to expand and push the footer down */
-          padding-bottom: 150px; /* Add bottom padding to make space for the footer */
+          flex: 1 0 auto; 
+          padding-bottom: 150px; 
         }
         
         footer {
           text-align: center;
           color: white;
-          padding: 10px 0;
+          padding: 5px 0;
           width: 100%;
         }
     </style>

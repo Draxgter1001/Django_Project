@@ -1,3 +1,4 @@
+/*Sophie Earish, Simona Bosilkova*/
 body {
   background-color: RGB(20, 33, 61);
   font-family: Arial, Helvetica, sans-serif;
@@ -9,10 +10,11 @@ h1 {
 }
 
 .container {
-  background-color: rgb(252, 163, 17);
-  padding: 125px;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* optional: added shadow for aesthetics */
+    background-color: rgb(252, 163, 17);
+    padding: 125px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* optional: added shadow for aesthetics */
+    text-align: center;
 }
 
 h3{
@@ -53,7 +55,7 @@ p a:active {
 }
 
 img {
-  border-radius: 15px; /* Assuming you want rounded corners on the image too */
+  border-radius: 15px;
   height: 75%;
   width: 75%;
 }
@@ -62,17 +64,17 @@ img {
   background-color: white;
   border-radius: 15px;
   display: flex;
-  justify-content: center; /* Horizontally centers the content */
-  align-items: center; /* Vertically centers the content */
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  width: 50%; /* Adjust this as needed */
-  height: 50%; /* Adjust this as needed */
+  width: 50%;
+  height: 50%;
   margin-left: 25%;
 }
 
 .card-container {
   display: flex;
-  justify-content: space-around; /* Adjusts the spacing around items */
+  justify-content: space-around;
   align-items: stretch;
   flex-wrap: wrap;
   gap: 20px;
@@ -93,22 +95,23 @@ img {
   padding: 20px;
   text-align: center;
   cursor: pointer;
-  flex: 1 1 300px; /* Grow and shrink from the basis of 300px */
-  min-height: 200px; /* Minimum height of each card */
+  flex: 1 1 300px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 275px;
+    border: solid 3px rgb(20, 33, 61);
 }
 
 .card:hover {
-  transform: scale(1.10); /* Slightly enlarge the card on hover */
+  transform: scale(1.10);
   transition: 1.25s;
 }
 .card p {
-  margin: 0; /* Removes default paragraph margin which can cause layout issues */
-  overflow: hidden; /* Hides text that overflows the card's bounds */
-  text-overflow: ellipsis; /* Shows an ellipsis if the text overflows */
-  white-space: nowrap; /* Keeps the text on a single line */
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

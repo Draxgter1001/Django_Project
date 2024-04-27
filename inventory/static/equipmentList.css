@@ -1,3 +1,5 @@
+/*Simona Bosilkova */
+
 body {
     background-color: RGB(20, 33, 61);
     font-family: Arial, sans-serif;
@@ -48,9 +50,46 @@ h1 {
     width: 100%;
 }
 
-.btn-btn-secondary,
+.filter-button {
+    text-decoration: none;
+    color: rgb(252, 163, 17);
+    background-color: #004165;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.filter-button:hover {
+    background-color: rgb(252, 163, 17);
+    color: RGB(20, 33, 61);
+}
+
+#applyFilters,
 .btn-btn-primary{
     width: 100%;
+}
+
+#applyFilters{
+    margin-top: 10px;
+}
+
+.btn-btn-primary,
+#applyFilters{
+    text-decoration: none;
+    color: rgb(252, 163, 17);
+    background-color: #004165;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+.btn-btn-primary:hover,
+#applyFilters:hover{
+    background-color: rgb(20, 33, 61);
+    color: RGB(252, 163, 17);
 }
 
 .equipment-table {
@@ -134,4 +173,38 @@ h1 {
     color: #827257;
     text-decoration: none;
     cursor: pointer;
+}
+
+.pagination {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.step-links {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.step-links a {
+    text-decoration: none;
+    color: rgb(252, 163, 17);
+    background-color: #004165;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.step-links a:hover {
+    background-color: rgb(252, 163, 17);
+    color: RGB(20, 33, 61);
+}
+
+/* Current page indicator */
+.current {
+    padding: 5px 10px;
+    border-radius: 3px;
+    background-color: #a2700f; /
+    color: white;
 }
