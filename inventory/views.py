@@ -50,11 +50,16 @@ class EquipmentListView(LoginRequiredMixin, ListView):
     model = Equipment
     context_object_name = 'equipment_list'
     template_name = 'inventory/equipment_list.html'
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['equipment_types'] = Equipment.objects.values_list('type', flat=True).distinct()
-        context['equipment_locations'] = Location.objects.values_list('location_name', flat=True).distinct()
+        equipment_types = Equipment.objects.values_list('type', flat=True).distinct()
+        equipment_locations = Location.objects.values_list('location_name', flat=True).distinct()
+
+        # Add to context
+        context['equipment_types'] = equipment_types
+        context['equipment_locations'] = equipment_locations
         return context
 
 
