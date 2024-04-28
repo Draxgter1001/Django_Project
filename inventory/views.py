@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
@@ -17,14 +16,6 @@ import datetime
 
 from .forms import UserRegisterForm, ReservationForm
 from .models import Equipment, Reservation, UserProfile, Location, EquipmentUsageHistory
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.views.generic import ListView, CreateView
-from .forms import UserRegisterForm, ReservationForm
-from .models import Equipment, Reservation, UserProfile, Location
-
 
 
 # Authentication and Registration Views
@@ -39,12 +30,10 @@ def edit_account(request):
     return render(request, "registration/editAccount.html")
 
 
-
 class RegisterView(CreateView):
     form_class = UserRegisterForm
     template_name = 'registration/register.html'
     success_url = reverse_lazy('inventory:successful_registration')
-
 
     def form_valid(self, form):
         user = form.save()
@@ -53,17 +42,6 @@ class RegisterView(CreateView):
 
     def form_invalid(self, form):
         return super(RegisterView, self).form_invalid(form)
-
-class RegisterView(CreateView):
-    form_class = UserRegisterForm
-    template_name = 'registration/register.html'
-    success_url = reverse_lazy('inventory:successful_registration')
-
-    def form_valid(self, form):
-        user = form.save()
-        UserProfile.objects.update_or_create(user=user, defaults={'is_approved': False})
-        return super().form_valid(form)
-
 
 
 # Equipment Views
@@ -89,6 +67,7 @@ class EquipmentListView(LoginRequiredMixin, ListView):
 
 @login_required
 def booking_view(request):
+    # Fetch reservations for the logged-in user and order them by start date
     reservations = (Reservation.objects.filter(user=request.user).select_related('equipment', 'equipment__location')
                     .order_by('-start_date'))
     return render(request, 'inventory/bookingList.html', {'reservations': reservations})
@@ -119,7 +98,6 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-
         reservation = form.save(commit=False)
         equipment = reservation.equipment
         start_date = form.cleaned_data['start_date']
@@ -135,22 +113,11 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
             form.add_error('quantity', 'Insufficient quantity available.')
             return self.form_invalid(form)
 
-        equipment_id = self.request.POST.get('equipment_id')
-        form.instance.equipment = get_object_or_404(Equipment, pk=equipment_id)
-        return super().form_valid(form)
-
 
 # Miscellaneous Views
 
-
 def successful_registration(request):
     return render(request, 'registration/successfulRegistration.html')
-
-
-
-def successful_registration(request):
-    return render(request, 'registration/successfulRegistration.html')
-
 
 
 def login_view(request):
@@ -173,7 +140,6 @@ def login_view(request):
             messages.error(request, 'Invalid username or password.')
 
     return render(request, 'registration/login.html')
-
 
 
 @login_required
@@ -263,4 +229,3 @@ def download_inventory_report(request):
     p.showPage()
     p.save()
     return response
-

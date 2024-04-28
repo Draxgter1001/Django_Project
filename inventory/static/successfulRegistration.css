@@ -8,12 +8,12 @@ h2, h4, h5 {
 }
 
 .container {
-    width: 100%; /* Set to 100% to fill the viewport */
+    width: 100%;
     display: flex;
-    justify-content: center; /* Align items to the center */
+    justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden; /* Hide overflow if any part goes outside of the viewport */
+    overflow: hidden;
   }
   .login-container {
     background-color: rgb(252, 163, 17);
@@ -36,7 +36,7 @@ h2, h4, h5 {
   }
 
   .login-container {
-    flex: none; /* Do not grow or shrink */
+    flex: none;
     padding: 100px;
     border-radius: 5px;
 
@@ -44,7 +44,7 @@ h2, h4, h5 {
 
   .flex-container {
     display: flex;
-    justify-content: center; /* Center the items without adding space around */
+    justify-content: center;
     align-items: center;
     height: 100vh;
 

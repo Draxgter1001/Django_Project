@@ -1,4 +1,4 @@
-# Tafshi Uthshow Hoque, Rafael Rojas Vivanc & Rishabh Kabawala
+# Tafshi Uthshow Hoque, Rafael Rojas Vivanco & Rishabh Kabawala
 
 # models.py
 from django.db import models
