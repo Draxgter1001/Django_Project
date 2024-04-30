@@ -106,11 +106,3 @@ def update_usage_history(sender, instance, created, **kwargs):
         history.times_reserved += 1
         history.last_reserved = instance.start_date
         history.save()
-
-
-@receiver(post_delete, sender=Reservation)
-def decrement_usage_history(sender, instance, **kwargs):
-    history = EquipmentUsageHistory.objects.filter(equipment=instance.equipment).first()
-    if history:
-        history.times_reserved -= 1
-        history.save()
